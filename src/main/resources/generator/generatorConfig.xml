@@ -17,7 +17,7 @@
         </jdbcConnection> -->
         <jdbcConnection
                 driverClass="com.mysql.jdbc.Driver"
-                connectionURL="jdbc:mysql://localhost:3306/videoweb?useUnicode=true"
+                connectionURL="jdbc:mysql://localhost:3306/cloudclass?useUnicode=true"
                 userId="root"
                 password="my110120130">
         </jdbcConnection>
@@ -54,7 +54,41 @@
              <!--<columnOverride column=""></columnOverride> -->
         <!--</table>-->
         <!--<table schema="scott" tableName="dept"/>-->
-        <!--<table schema="videoweb" tableName="user">-->
+        <!--<table schema="cloudclass" tableName="checkin">-->
+        <!--</table>-->
+        <!--<table schema="cloudclass" tableName="checkresult">-->
+        <!--</table>-->
+        <table schema="cloudclass" tableName="course">
+        </table>
+        <!--<table schema="cloudclass" tableName="homework">-->
+        <!--</table>-->
+        <!--<table schema="cloudclass" tableName="homeworkresult">-->
+        <!--</table>-->
+        <table schema="cloudclass" tableName="member">
+        </table>
+        <!--<table schema="cloudclass" tableName="message">-->
+        <!--</table>-->
+        <!--<table schema="cloudclass" tableName="notice">-->
+        <!--</table>-->
+        <!--<table schema="cloudclass" tableName="questionbank">-->
+        <!--</table>-->
+        <!--<table schema="cloudclass" tableName="questionoption">-->
+        <!--</table>-->
+        <!--<table schema="cloudclass" tableName="resource">-->
+        <!--</table>-->
+        <!--<table schema="cloudclass" tableName="test">-->
+        <!--</table>-->
+        <!--<table schema="cloudclass" tableName="testresult">-->
+        <!--</table>-->
+        <!--<table schema="cloudclass" tableName="users">-->
+        <!--</table>-->
+        <!--<table schema="cloudclass" tableName="vote">-->
+        <!--</table>-->
+        <!--<table schema="cloudclass" tableName="votebank">-->
+        <!--</table>-->
+        <!--<table schema="cloudclass" tableName="voteoption">-->
+        <!--</table>-->
+        <!--<table schema="cloudclass" tableName="voteresult">-->
         <!--</table>-->
         <!--<table schema="videoweb" tableName="video_like">-->
         <!--</table>-->
@@ -67,36 +101,6 @@
         <!--<table schema="videoweb" tableName="behavior_context">-->
         <!--</table>-->
         <!--<table schema="videoweb" tableName="video_watch">-->
-        <!--</table>-->
-        <!--<table schema="videoweb" tableName="dm_content">-->
-        <!--</table>-->
-        <!--<table schema="videoweb" tableName="follow_user">-->
-        <!--</table>-->
-        <!--<table schema="videoweb" tableName="behavior_type">-->
-        <!--</table>-->
-        <!--<table schema="videoweb" tableName="behavior_weight">-->
-        <!--</table>-->
-        <!--<table schema="videoweb" tableName="classify">-->
-        <!--</table>-->
-        <!--<table schema="videoweb" tableName="user_video">-->
-        <!--</table>-->
-        <!--<table schema="videoweb" tableName="comment">-->
-        <!--</table>-->
-        <!--<table schema="videoweb" tableName="comment_video">-->
-        <!--</table>-->
-        <!--<table schema="videoweb" tableName="comment_relation">-->
-        <!--</table>-->
-        <!--<table schema="videoweb" tableName="topic">-->
-        <!--</table>-->
-        <!--<table schema="videoweb" tableName="video">-->
-        <!--</table>-->
-        <!--<table schema="videoweb" tableName="user_topic">-->
-        <!--</table>-->
-        <!--<table schema="videoweb" tableName="admin">-->
-        <!--</table>-->
-        <!--<table schema="videoweb" tableName="user_active">-->
-        <!--</table>-->
-        <!--<table schema="videoweb" tableName="pic_video">-->
         <!--</table>-->
     </context>
 </generatorConfiguration>

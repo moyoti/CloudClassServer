@@ -4,6 +4,7 @@ import com.my.pojo.Checkin;
 import com.my.pojo.CheckinExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Component;
 
 public interface CheckinMapper {
     /**

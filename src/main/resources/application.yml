@@ -17,7 +17,7 @@ spring:
         name: test
         url: jdbc:mysql://127.0.0.1:3306/cloudclass
         username: root
-        password: my110120130
+        password: 123456
 
         driver-class-name: com.mysql.jdbc.Driver
         filters: stat

@@ -40,7 +40,10 @@ public class UsersServiceImpl implements UsersService {
             UsersExample usersExample=new UsersExample();
             usersExample.or().andEmailEqualTo(users.getEmail());
             List<Users> user=usersMapper.selectByExample(usersExample);
-            if(EncodeMD5.encode(users.getPassword()).equals(user.get(0).getPassword())){
+//            if(EncodeMD5.encode(users.getPassword()).equals(user.get(0).getPassword())){
+//                return true;
+//            }
+            if(users.getPassword().equals(user.get(0).getPassword())){
                 return true;
             }
         }catch (Exception e){

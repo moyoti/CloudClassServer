@@ -113,26 +113,28 @@ public class EmailSender {
         mc.addMailcap("message/rfc822;; x-java-content-handler=com.sun.mail.handlers.message_rfc822");
         CommandMap.setDefaultCommandMap(mc);
         //发送邮件
+        System.out.println("send Email before");
         sendEmail("smtp.sohu.com", "cloudclass@sohu.com", "cloudclass123456");
+        System.out.println("send Email after");
     }
-    public static void main(String[] args) throws MessagingException {
-        EmailSender emailSender = new EmailSender();
-        //设置服务器地址和端口
-        emailSender.setProperties("smtp.sohu.com", "25");
-        //分别设置发件人，邮件标题和文本内容
-        emailSender.setMessage("cloudclass@sohu.com", "Test Message", "test email send");
-        //设置收件人
-        emailSender.setReceiver(new String[]{"dqh_ql@163.com"});
-        //多媒体相关配置
-        MailcapCommandMap mc = (MailcapCommandMap) CommandMap.getDefaultCommandMap();
-        mc.addMailcap("text/html;; x-Java-content-handler=com.sun.mail.handlers.text_html");
-        mc.addMailcap("text/xml;; x-java-content-handler=com.sun.mail.handlers.text_xml");
-        mc.addMailcap("text/plain;; x-java-content-handler=com.sun.mail.handlers.text_plain");
-        mc.addMailcap("multipart/*;; x-java-content-handler=com.sun.mail.handlers.multipart_mixed");
-        mc.addMailcap("message/rfc822;; x-java-content-handler=com.sun.mail.handlers.message_rfc822");
-        CommandMap.setDefaultCommandMap(mc);
-        //发送邮件
-        emailSender.sendEmail("smtp.sohu.com", "cloudclass@sohu.com", "cloudclass123456");
-    }
+//    public static void main(String[] args) throws MessagingException {
+//        EmailSender emailSender = new EmailSender();
+//        //设置服务器地址和端口
+//        emailSender.setProperties("smtp.sohu.com", "25");
+//        //分别设置发件人，邮件标题和文本内容
+//        emailSender.setMessage("cloudclass@sohu.com", "Test Message", "test email send");
+//        //设置收件人
+//        emailSender.setReceiver(new String[]{"dqh_ql@163.com"});
+//        //多媒体相关配置
+//        MailcapCommandMap mc = (MailcapCommandMap) CommandMap.getDefaultCommandMap();
+//        mc.addMailcap("text/html;; x-Java-content-handler=com.sun.mail.handlers.text_html");
+//        mc.addMailcap("text/xml;; x-java-content-handler=com.sun.mail.handlers.text_xml");
+//        mc.addMailcap("text/plain;; x-java-content-handler=com.sun.mail.handlers.text_plain");
+//        mc.addMailcap("multipart/*;; x-java-content-handler=com.sun.mail.handlers.multipart_mixed");
+//        mc.addMailcap("message/rfc822;; x-java-content-handler=com.sun.mail.handlers.message_rfc822");
+//        CommandMap.setDefaultCommandMap(mc);
+//        //发送邮件
+//        emailSender.sendEmail("smtp.sohu.com", "cloudclass@sohu.com", "cloudclass123456");
+//    }
 }
 

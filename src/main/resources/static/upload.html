@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!-- 新 Bootstrap 核心 CSS 文件 -->
+    <link href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <style>
+        #file{
+        }
+    </style>
+    <script>
+        $(function () {
+            $("#btn").on('click', function () {
+            });
+            $("#file").change(function () {
+                $("#progress-bar").css("width", 0);
+            });
+        });
+        function UploadFile() {
+            var xhrOnProgress = function (fun) {
+                xhrOnProgress.onprogress = fun; //绑定监听
+                //使用闭包实现监听绑
+                return function () {
+                    //通过$.ajaxSettings.xhr();获得XMLHttpRequest对象
+                    var xhr = $.ajaxSettings.xhr();
+                    //判断监听函数是否为函数
+                    if (typeof xhrOnProgress.onprogress !== 'function')
+                        return xhr;
+                    //如果有监听函数并且xhr对象支持绑定时就把监听函数绑定上去
+                    if (xhrOnProgress.onprogress && xhr.upload) {
+                        xhr.upload.onprogress = xhrOnProgress.onprogress;
+                    }
+                    return xhr;
+                }
+            };
+            var file = $("#file")[0].files[0];
+            var videotitle=$("#videoname").val();
+            var picfile = $("#picfile")[0].files[0];
+            var videocontent=$("#videoContent").val();
+            var form = new FormData();
+            form.append('myfile', file);
+            form.append('title',videotitle);
+            form.append('picfile',picfile);
+            form.append('content',videocontent);
+            form.append("csrfmiddlewaretoken", '{{ csrf_token }}');
+            $.ajax({
+                type: 'POST',
+                url: '/video/upload',
+                data: form,
+                processData: false,  // 告诉jquery不转换数据
+                contentType: false,  // 告诉jquery不设置内容格式
+                xhr: xhrOnProgress(function (e) {
+                    var percent = e.loaded / e.total;
+                    $("#progress-bar").css("width", (percent * 500));
+                    document.getElementById("sr-only").innerText=parseInt((percent*100).toString())+"%";
+                }),
+                success: function (arg) {
+                    console.log(arg);
+                }
+            })
+        }
+
+        function logout() {
+            $.ajax({
+                type: 'POST',
+                url: '/users/logoutpc',
+                success: function (arg) {
+                    alert("登出成功");
+                }
+            })
+        }
+    </script>
+</head>
+<body>
+<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <a href="#" class="navbar-brand">你好，吴玠璘</a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse navbar-right">
+            <ul class="nav navbar-nav">
+                <li ><a href="login.html" onclick="logout()">登出</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="container" style="margin-top: 100px">
+    <div class="row">
+        <div class="col-md-5 col-md-offset-2">
+            <form action="/video/upload" enctype="multipart/form-data" method="POST">
+                <label>视频标题：</label>
+                <input type="text" id="videoname"><br/>
+                <!--<label>视频简介：</label>-->
+                <!--<textarea id="videoContent" class="form-control" rows="4" placeholder=""-->
+                          <!--style="resize: none;"></textarea>-->
+                <!--<label>视频缩略图：</label>-->
+                <!--<input type="file" id="picfile" style=""/>-->
+                <label>上传视频：</label>
+                <input type="file" id="file" style="" onchange="UploadFile()"/>
+            </form>
+            <div class="progress" style="width: 500px">
+                <div id="progress-bar" class="progress-bar progress-bar-success progress-bar-striped" role="progressbar"
+                     aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
+                    <span id="sr-only" style="z-index: 10"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

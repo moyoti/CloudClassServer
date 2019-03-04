@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.activation.CommandMap;
 import javax.activation.MailcapCommandMap;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 /**
  * @Author: dongqihang
@@ -33,6 +34,32 @@ public class UsersController {
         System.out.println(password);
         System.out.println(usersService.login(users));
         return usersService.login(users);
+    }
+
+    @RequestMapping(value = "/loginpc", method = RequestMethod.POST)
+    public boolean usersLoginpc(HttpServletRequest request, @RequestParam("email") String email, @RequestParam("password") String password) {
+
+        Users users = new Users();
+        users.setEmail(email);
+        users.setPassword(password);
+        System.out.println(email);
+        System.out.println(password);
+        System.out.println(usersService.login(users));
+        if(usersService.login(users)){
+            HttpSession session = request.getSession();
+            session.setAttribute("username",email);
+        }
+
+        return usersService.login(users);
+    }
+
+    @RequestMapping(value = "/logoutpc", method = RequestMethod.POST)
+    public boolean usersLogoutpc(HttpServletRequest request, @RequestParam("email") String email, @RequestParam("password") String password) {
+
+        HttpSession session = request.getSession();
+        session.setAttribute("username","");
+
+        return true;
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)

@@ -77,4 +77,9 @@ public class UsersServiceImpl implements UsersService {
             return false;
         }
     }
+
+    @Override
+    public Users getUsersInfo(int uid) {
+        return usersMapper.selectByPrimaryKey(uid);
+    }
 }

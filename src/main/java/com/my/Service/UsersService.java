@@ -11,4 +11,5 @@ public interface UsersService {
     boolean login(Users users);
     boolean updateUsersInfo(Users users);
     boolean checkEmailAvailable(String email);
+    Users getUsersInfo(int uid);
 }

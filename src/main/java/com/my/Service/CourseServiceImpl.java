@@ -3,6 +3,7 @@ package com.my.Service;
 import com.my.dao.CourseMapper;
 import com.my.dao.UsersMapper;
 import com.my.pojo.Course;
+import com.my.pojo.CourseExample;
 import com.my.pojo.Users;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +32,6 @@ public class CourseServiceImpl implements CourseService {
         }
     }
 
-    //todo cid改回int
     @Override
     public boolean DeleteCourse(Course course) {
         try{
@@ -41,5 +41,37 @@ public class CourseServiceImpl implements CourseService {
             return false;
         }
 
+    }
+
+    @Override
+    public List<Course> getCreateCourse(int uid) {
+        CourseExample courseExample=new CourseExample();
+        courseExample.or().andTeacherEqualTo(uid);
+        List<Course> courseList=courseMapper.selectByExample(courseExample);
+        return courseList;
+    }
+
+    @Override
+    public boolean checkCourseExist(int cid) {
+        CourseExample courseExample=new CourseExample();
+        courseExample.or().andCidEqualTo(cid);
+        List<Course> courseList=courseMapper.selectByExample(courseExample);
+        if(courseList.isEmpty()){
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public Course searchCourse(int cid) {
+        CourseExample courseExample=new CourseExample();
+        courseExample.or().andCidEqualTo(cid);
+        List<Course> courseList=courseMapper.selectByExample(courseExample);
+        return courseList.get(0);
+    }
+
+    @Override
+    public int updateCourseInfo(Course course) {
+        return courseMapper.updateByPrimaryKey(course);
     }
 }

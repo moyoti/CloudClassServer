@@ -60,4 +60,33 @@ public class MemberServiceImpl implements MemberService {
             return null;
         }
     }
+
+    //todo 除这两个字段其他字段如何处理,还需要检查用户是否已经参与到班课中,controller目前还没添加相应接口
+    @Override
+    public boolean joinClass(int uid, int cid) {
+        Member member=new Member();
+        member.setCid(cid);
+        member.setUid(uid);
+        try{
+            memberMapper.insert(member);
+            return true;
+        }catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
+
+    }
+
+    @Override
+    public boolean exitClass(int uid, int cid) {
+        MemberExample memberExample=new MemberExample();
+        memberExample.or().andCidEqualTo(cid).andUidEqualTo(uid);
+        int rows=memberMapper.deleteByExample(memberExample);
+        if(rows>0){
+            return true;
+        }else {
+            return false;
+        }
+    }
+
 }

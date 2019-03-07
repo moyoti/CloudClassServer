@@ -17,9 +17,9 @@
         </jdbcConnection> -->
         <jdbcConnection
                 driverClass="com.mysql.jdbc.Driver"
-                connectionURL="jdbc:mysql://localhost:3306/cloudclass?useUnicode=true"
-                userId="root"
-                password="my110120130">
+                connectionURL="jdbc:mysql://129.204.207.18:3306/cloudclass?useUnicode=true"
+                userId="dqhuser"
+                password="dqhql123">
         </jdbcConnection>
 
         <!-- 默认false，把JDBC DECIMAL 和 NUMERIC 类型解析为 Integer true，把JDBC DECIMAL 和
@@ -58,14 +58,14 @@
         <!--</table>-->
         <!--<table schema="cloudclass" tableName="checkresult">-->
         <!--</table>-->
-        <table schema="cloudclass" tableName="course">
-        </table>
+        <!--<table schema="cloudclass" tableName="course">-->
+        <!--</table>-->
         <!--<table schema="cloudclass" tableName="homework">-->
         <!--</table>-->
         <!--<table schema="cloudclass" tableName="homeworkresult">-->
         <!--</table>-->
-        <table schema="cloudclass" tableName="member">
-        </table>
+        <!--<table schema="cloudclass" tableName="member">-->
+        <!--</table>-->
         <!--<table schema="cloudclass" tableName="message">-->
         <!--</table>-->
         <!--<table schema="cloudclass" tableName="notice">-->
@@ -74,14 +74,16 @@
         <!--</table>-->
         <!--<table schema="cloudclass" tableName="questionoption">-->
         <!--</table>-->
-        <!--<table schema="cloudclass" tableName="resource">-->
-        <!--</table>-->
+        <table schema="cloudclass" tableName="resource">
+        </table>
         <!--<table schema="cloudclass" tableName="test">-->
         <!--</table>-->
         <!--<table schema="cloudclass" tableName="testresult">-->
         <!--</table>-->
-        <!--<table schema="cloudclass" tableName="users">-->
-        <!--</table>-->
+        <table schema="cloudclass" tableName="users">
+        </table>
+        <table schema="cloudclass" tableName="resources_class">
+        </table>
         <!--<table schema="cloudclass" tableName="vote">-->
         <!--</table>-->
         <!--<table schema="cloudclass" tableName="votebank">-->

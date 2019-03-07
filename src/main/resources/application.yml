@@ -15,9 +15,9 @@ spring:
             max-request-size: 500Mb
     datasource:
         name: test
-        url: jdbc:mysql://127.0.0.1:3306/cloudclass
-        username: root
-        password: 123456
+        url: jdbc:mysql://129.204.207.18:3306/cloudclass
+        username: dqhuser
+        password: dqhql123
 
         driver-class-name: com.mysql.jdbc.Driver
         filters: stat

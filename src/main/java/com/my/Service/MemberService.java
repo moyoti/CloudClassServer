@@ -12,4 +12,6 @@ import java.util.List;
 public interface MemberService {
     List<Users> getClassMember(int cid);
     List<Course> getJoinedCourse(int uid);
+    boolean joinClass(int uid,int cid);
+    boolean exitClass(int uid,int cid);
 }

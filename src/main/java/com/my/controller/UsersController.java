@@ -30,9 +30,6 @@ public class UsersController {
         Users users = new Users();
         users.setEmail(email);
         users.setPassword(password);
-        System.out.println(email);
-        System.out.println(password);
-        System.out.println(usersService.login(users));
         return usersService.login(users);
     }
 
@@ -64,20 +61,19 @@ public class UsersController {
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public boolean usersRegister(HttpServletRequest request,
-                                 @Param("email") String email, @Param("password") String password) {
+                                 @RequestParam("email") String email, @RequestParam("password") String password) {
         Users users=new Users();
-        System.out.println("Outside try");
         try{
-            System.out.println("Inside try");
             users.setEmail(email);
             users.setPassword(password);
 //            users.setGender(gender);
 //            users.setName(name);
 //            users.setPhone(phone);
-            users.setYob(1996);
-//            EmailSender emailSender=new EmailSender();
-//            emailSender.send("title","content",new String[]{email});
+            EmailSender emailSender=new EmailSender();
+            emailSender.send("标题","中文测试",new String[]{email});
+            System.out.println("success");
         }catch (Exception e){
+            e.printStackTrace();
             return false;
         }
 
@@ -105,23 +101,27 @@ public class UsersController {
         return validationcode;
     }
 
+    @RequestMapping(value = "/userinfo",method = RequestMethod.POST)
+    public Users getUserInfo(@RequestParam("uid")int uid){
+        return usersService.getUsersInfo(uid);
+    }
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     public boolean updateUsersInfo(HttpServletRequest request,
-                                   @Param("email") String email, @Param("password") String password,
-                                   @Param("name") String name, @Param("phone")String phone,
-                                   @Param("gender") String gender,@Param("yob") int yob){
+                                   @RequestParam("email") String email, @RequestParam("password") String password,
+                                   @RequestParam("name") String name, @RequestParam("phone")String phone,
+                                   @RequestParam("gender") String gender,@RequestParam("yob") int yob){
         Users users=new Users();
         users.setEmail(email);
         users.setPassword(password);
         users.setGender(gender);
         users.setName(name);
         users.setPhone(phone);
-        users.setYob(yob);
+
         return usersService.updateUsersInfo(users);
     }
     @RequestMapping(value = "/emailCheck", method = RequestMethod.POST)
     public boolean checkEmailAvailable(HttpServletRequest request,
-                                       @Param("email") String email){
+                                       @RequestParam("email") String email){
         return usersService.checkEmailAvailable(email);
     }
 }

@@ -13,4 +13,8 @@ import java.util.List;
 public interface CourseService {
     boolean CreateCourse(Course course);
     boolean DeleteCourse(Course course);
+    List<Course> getCreateCourse(int uid);
+    boolean checkCourseExist(int cid);
+    Course searchCourse(int cid);
+    int updateCourseInfo(Course course);
 }

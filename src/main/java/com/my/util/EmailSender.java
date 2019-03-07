@@ -4,10 +4,15 @@ package com.my.util;
  * Created by Administrator on 2017/3/27.
  */
 
+import sun.misc.BASE64Encoder;
+
 import javax.activation.CommandMap;
 import javax.activation.MailcapCommandMap;
 import javax.mail.*;
 import javax.mail.internet.*;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.util.Date;
 import java.util.Properties;
 
@@ -15,7 +20,7 @@ import java.util.Properties;
 public class EmailSender {
     private Properties properties;
     private Session session;
-    private Message message;
+    private MimeMessage message;
     private MimeMultipart multipart;
 
     public EmailSender() {
@@ -53,12 +58,27 @@ public class EmailSender {
      * @throws AddressException
      * @throws MessagingException
      */
-    public void setMessage(String from,String title,String content) throws AddressException, MessagingException{
+    public void setMessage(String from,String title,String content) throws AddressException, MessagingException, UnsupportedEncodingException {
         this.message.setFrom(new InternetAddress(from));
-        this.message.setSubject(title);
+        sun.misc.BASE64Encoder enc = new sun.misc.BASE64Encoder();
+        String sTitle="=?utf-8?B?"+MimeUtility.encodeText(title,"gbk",null).substring(8);
+        this.message.setSubject(sTitle);
+        System.out.println(sTitle);
+        System.out.println(MimeUtility.encodeText(title,"utf-8",null));
+        System.out.println(MimeUtility.encodeText(title,"gbk",null));
         //纯文本的话用setText()就行，不过有附件就显示不出来内容了
         MimeBodyPart textBody = new MimeBodyPart();
+//        textBody.setText(content,"gbk");
+        String sContent="=?utf-8?B?"+MimeUtility.encodeText(content,"gbk",null).substring(8);
         textBody.setText(content);
+        System.out.println(sContent);
+        System.out.println(MimeUtility.encodeText(content,"utf-8",null));
+        System.out.println(MimeUtility.encodeText(content,"gbk",null));
+//        sun.misc.BASE64Encoder enc = new sun.misc.BASE64Encoder();
+        textBody.setHeader("Content-Transfer-Encoding", "base64");
+        textBody.setHeader("Content-Type", "text/plain; charset=utf-8");
+//        textBody.setHeader("Accept-Language", "zh-CN, en-US");
+//        textBody.setHeader("Content-Language", "zh-CN");
         this.multipart.addBodyPart(textBody);
     }
     /**
@@ -97,13 +117,32 @@ public class EmailSender {
         transport.close();
     }
 
-    public void send(String title,String content,String[] receiver) throws MessagingException {
+    public void send(String title,String content,String[] receiver) throws MessagingException, UnsupportedEncodingException {
         //设置服务器地址和端口
         setProperties("smtp.sohu.com", "25");
         //分别设置发件人，邮件标题和文本内容
         setMessage("cloudclass@sohu.com", title, content);
         //设置收件人
         setReceiver(receiver);
+        //多媒体相关配置
+//        MailcapCommandMap mc = (MailcapCommandMap) CommandMap.getDefaultCommandMap();
+//        mc.addMailcap("text/html;; x-Java-content-handler=com.sun.mail.handlers.text_html");
+//        mc.addMailcap("text/xml;; x-java-content-handler=com.sun.mail.handlers.text_xml");
+//        mc.addMailcap("text/plain;; x-java-content-handler=com.sun.mail.handlers.text_plain");
+//        mc.addMailcap("multipart/*;; x-java-content-handler=com.sun.mail.handlers.multipart_mixed");
+//        mc.addMailcap("message/rfc822;; x-java-content-handler=com.sun.mail.handlers.message_rfc822");
+//        CommandMap.setDefaultCommandMap(mc);
+        //发送邮件
+        sendEmail("smtp.sohu.com", "cloudclass@sohu.com", "cloudclass123456");
+    }
+    public static void main(String[] args) throws MessagingException, UnsupportedEncodingException {
+        EmailSender emailSender = new EmailSender();
+        //设置服务器地址和端口
+        emailSender.setProperties("smtp.sohu.com", "25");
+        //分别设置发件人，邮件标题和文本内容
+        emailSender.setMessage("cloudclass@sohu.com", "Test Message", "test email send");
+        //设置收件人
+        emailSender.setReceiver(new String[]{"dqh_ql@163.com"});
         //多媒体相关配置
         MailcapCommandMap mc = (MailcapCommandMap) CommandMap.getDefaultCommandMap();
         mc.addMailcap("text/html;; x-Java-content-handler=com.sun.mail.handlers.text_html");
@@ -113,28 +152,7 @@ public class EmailSender {
         mc.addMailcap("message/rfc822;; x-java-content-handler=com.sun.mail.handlers.message_rfc822");
         CommandMap.setDefaultCommandMap(mc);
         //发送邮件
-        System.out.println("send Email before");
-        sendEmail("smtp.sohu.com", "cloudclass@sohu.com", "cloudclass123456");
-        System.out.println("send Email after");
+        emailSender.sendEmail("smtp.sohu.com", "cloudclass@sohu.com", "cloudclass123456");
     }
-//    public static void main(String[] args) throws MessagingException {
-//        EmailSender emailSender = new EmailSender();
-//        //设置服务器地址和端口
-//        emailSender.setProperties("smtp.sohu.com", "25");
-//        //分别设置发件人，邮件标题和文本内容
-//        emailSender.setMessage("cloudclass@sohu.com", "Test Message", "test email send");
-//        //设置收件人
-//        emailSender.setReceiver(new String[]{"dqh_ql@163.com"});
-//        //多媒体相关配置
-//        MailcapCommandMap mc = (MailcapCommandMap) CommandMap.getDefaultCommandMap();
-//        mc.addMailcap("text/html;; x-Java-content-handler=com.sun.mail.handlers.text_html");
-//        mc.addMailcap("text/xml;; x-java-content-handler=com.sun.mail.handlers.text_xml");
-//        mc.addMailcap("text/plain;; x-java-content-handler=com.sun.mail.handlers.text_plain");
-//        mc.addMailcap("multipart/*;; x-java-content-handler=com.sun.mail.handlers.multipart_mixed");
-//        mc.addMailcap("message/rfc822;; x-java-content-handler=com.sun.mail.handlers.message_rfc822");
-//        CommandMap.setDefaultCommandMap(mc);
-//        //发送邮件
-//        emailSender.sendEmail("smtp.sohu.com", "cloudclass@sohu.com", "cloudclass123456");
-//    }
 }
 

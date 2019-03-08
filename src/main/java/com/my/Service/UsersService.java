@@ -12,4 +12,5 @@ public interface UsersService {
     boolean updateUsersInfo(Users users);
     boolean checkEmailAvailable(String email);
     Users getUsersInfo(int uid);
+    int getUidByEmail(String email);
 }

@@ -3,11 +3,8 @@ package com.my.Service;
 
 import com.my.dao.CourseMapper;
 import com.my.dao.UsersMapper;
-import com.my.pojo.Course;
-import com.my.pojo.Member;
-import com.my.pojo.Users;
+import com.my.pojo.*;
 import com.my.dao.MemberMapper;
-import com.my.pojo.MemberExample;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -46,16 +43,23 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public List<Course> getJoinedCourse(int uid) {
+    public List<CourseItem> getJoinedCourse(int uid) {
         try{
             MemberExample memberExample=new MemberExample();
             memberExample.or().andUidEqualTo(uid);
             List<Member> memberList=memberMapper.selectByExample(memberExample);
             List<Course> courseList=new ArrayList<>();
+            List<CourseItem> courseItems=new ArrayList<>();
             for(Member member:memberList){
                 courseList.add(courseMapper.selectByPrimaryKey(member.getCid()));
             }
-            return courseList;
+            for (Course item:courseList){
+                CourseItem courseItem=new CourseItem();
+                courseItem.setCourse(item);
+                courseItem.setTeacherName(usersMapper.selectByPrimaryKey(item.getTeacher()).getName());
+                courseItems.add(courseItem);
+            }
+            return courseItems;
         }catch (Exception e){
             return null;
         }

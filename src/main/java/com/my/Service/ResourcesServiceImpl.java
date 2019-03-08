@@ -5,7 +5,9 @@ import com.my.dao.ResourcesClassMapper;
 import com.my.pojo.Resource;
 import com.my.pojo.ResourcesClass;
 import com.my.pojo.ResourcesClassExample;
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -17,6 +19,8 @@ import java.util.List;
  * @Author: dongqihang
  * @Date: Created in 9:33 2019/3/7
  */
+@Service
+@MapperScan("com.my.dao")
 public class ResourcesServiceImpl implements ResourceService {
     @Autowired
     private ResourceMapper resourceMapper;

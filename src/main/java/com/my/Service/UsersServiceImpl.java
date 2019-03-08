@@ -82,4 +82,11 @@ public class UsersServiceImpl implements UsersService {
     public Users getUsersInfo(int uid) {
         return usersMapper.selectByPrimaryKey(uid);
     }
+
+    @Override
+    public int getUidByEmail(String email) {
+        UsersExample usersExample=new UsersExample();
+        usersExample.or().andEmailEqualTo(email);
+        return usersMapper.selectByExample(usersExample).get(0).getUid();
+    }
 }

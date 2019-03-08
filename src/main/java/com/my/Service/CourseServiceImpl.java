@@ -4,11 +4,13 @@ import com.my.dao.CourseMapper;
 import com.my.dao.UsersMapper;
 import com.my.pojo.Course;
 import com.my.pojo.CourseExample;
+import com.my.pojo.CourseItem;
 import com.my.pojo.Users;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -44,11 +46,18 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public List<Course> getCreateCourse(int uid) {
+    public List<CourseItem> getCreateCourse(int uid) {
         CourseExample courseExample=new CourseExample();
         courseExample.or().andTeacherEqualTo(uid);
         List<Course> courseList=courseMapper.selectByExample(courseExample);
-        return courseList;
+        List<CourseItem> courseItems=new ArrayList<>();
+        for (Course item:courseList){
+            CourseItem courseItem=new CourseItem();
+            courseItem.setCourse(item);
+            courseItem.setTeacherName(usersMapper.selectByPrimaryKey(item.getTeacher()).getName());
+            courseItems.add(courseItem);
+        }
+        return courseItems;
     }
 
     @Override

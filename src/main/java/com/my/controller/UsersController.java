@@ -124,4 +124,8 @@ public class UsersController {
                                        @RequestParam("email") String email){
         return usersService.checkEmailAvailable(email);
     }
+    @RequestMapping(value = "/getuidbyemail",method = RequestMethod.POST)
+    public int getUidByEmail(@RequestParam("email")String email){
+        return usersService.getUidByEmail(email);
+    }
 }

@@ -1,6 +1,7 @@
 package com.my.Service;
 
 import com.my.pojo.Course;
+import com.my.pojo.CourseItem;
 import com.my.pojo.Users;
 
 import java.util.List;
@@ -11,7 +12,7 @@ import java.util.List;
  */
 public interface MemberService {
     List<Users> getClassMember(int cid);
-    List<Course> getJoinedCourse(int uid);
+    List<CourseItem> getJoinedCourse(int uid);
     boolean joinClass(int uid,int cid);
     boolean exitClass(int uid,int cid);
 }

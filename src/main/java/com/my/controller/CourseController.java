@@ -3,6 +3,7 @@ package com.my.controller;
 import com.my.Service.CourseService;
 import com.my.Service.MemberService;
 import com.my.pojo.Course;
+import com.my.pojo.CourseItem;
 import com.my.pojo.Users;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -40,13 +42,20 @@ public class CourseController {
         course.setCover(cover);
         return courseService.CreateCourse(course);
     }
+    @RequestMapping(value = "/getallclass",method = RequestMethod.POST)
+    public List<CourseItem> getAllClass(@RequestParam("uid")int uid){
+        List<CourseItem> courseItems=new ArrayList<>();
+        courseItems.addAll(courseService.getCreateCourse(uid));
+        courseItems.addAll(memberService.getJoinedCourse(uid));
+        return courseItems;
+    }
     @RequestMapping(value = "/getjoinedcourse",method = RequestMethod.POST)
-    public List<Course> getJoinedCourse(HttpServletRequest request,
-                                        @RequestParam("uid")int uid){
+    public List<CourseItem> getJoinedCourse(HttpServletRequest request,
+                                            @RequestParam("uid")int uid){
         return memberService.getJoinedCourse(uid);
     }
     @RequestMapping(value = "/getcreatecourse",method = RequestMethod.POST)
-    public List<Course> getCreateCourse(@RequestParam("uid")int uid){
+    public List<CourseItem> getCreateCourse(@RequestParam("uid")int uid){
         return courseService.getCreateCourse(uid);
     }
     @RequestMapping(value = "/checkclassexist", method = RequestMethod.POST)

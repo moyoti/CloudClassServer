@@ -60,8 +60,8 @@
         <!--</table>-->
         <!--<table schema="cloudclass" tableName="course">-->
         <!--</table>-->
-        <!--<table schema="cloudclass" tableName="homework">-->
-        <!--</table>-->
+        <table schema="cloudclass" tableName="homework">
+        </table>
         <!--<table schema="cloudclass" tableName="homeworkresult">-->
         <!--</table>-->
         <!--<table schema="cloudclass" tableName="member">-->
@@ -74,16 +74,16 @@
         <!--</table>-->
         <!--<table schema="cloudclass" tableName="questionoption">-->
         <!--</table>-->
-        <table schema="cloudclass" tableName="resource">
-        </table>
+        <!--<table schema="cloudclass" tableName="resource">-->
+        <!--</table>-->
         <!--<table schema="cloudclass" tableName="test">-->
         <!--</table>-->
         <!--<table schema="cloudclass" tableName="testresult">-->
         <!--</table>-->
-        <table schema="cloudclass" tableName="users">
-        </table>
-        <table schema="cloudclass" tableName="resources_class">
-        </table>
+        <!--<table schema="cloudclass" tableName="users">-->
+        <!--</table>-->
+        <!--<table schema="cloudclass" tableName="resources_class">-->
+        <!--</table>-->
         <!--<table schema="cloudclass" tableName="vote">-->
         <!--</table>-->
         <!--<table schema="cloudclass" tableName="votebank">-->

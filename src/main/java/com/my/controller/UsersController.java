@@ -109,7 +109,7 @@ public class UsersController {
     public boolean updateUsersInfo(HttpServletRequest request,
                                    @RequestParam("email") String email, @RequestParam("password") String password,
                                    @RequestParam("name") String name, @RequestParam("phone")String phone,
-                                   @RequestParam("gender") String gender,@RequestParam("yob") int yob){
+                                   @RequestParam("gender") String gender){
         Users users=new Users();
         users.setEmail(email);
         users.setPassword(password);

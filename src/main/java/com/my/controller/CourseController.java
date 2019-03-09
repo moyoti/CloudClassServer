@@ -32,53 +32,54 @@ public class CourseController {
     public boolean createCourse(HttpServletRequest request,
                                 @RequestParam("cname")String cname,@RequestParam("cover")String cover,
                                 @RequestParam("semester") String semester,@RequestParam("canjoin") String canjoin,
-                                @RequestParam("teacher")int teacher,@RequestParam("profile")String profile){
+                                @RequestParam("teacher")String teacher,@RequestParam("profile")String profile){
         Course course=new Course();
         course.setCanjoin(canjoin);
         course.setCname(cname);
         course.setProfile(profile);
-        course.setTeacher(teacher);
+        course.setTeacher(Integer.valueOf(teacher));
         course.setSemester(semester);
         course.setCover(cover);
         return courseService.CreateCourse(course);
     }
     @RequestMapping(value = "/getallclass",method = RequestMethod.POST)
-    public List<CourseItem> getAllClass(@RequestParam("uid")int uid){
+    public List<CourseItem> getAllClass(@RequestParam("uid")String uid){
         List<CourseItem> courseItems=new ArrayList<>();
-        courseItems.addAll(courseService.getCreateCourse(uid));
-        courseItems.addAll(memberService.getJoinedCourse(uid));
+        int reuid=Integer.valueOf(uid);
+        courseItems.addAll(courseService.getCreateCourse(reuid));
+        courseItems.addAll(memberService.getJoinedCourse(reuid));
         return courseItems;
     }
     @RequestMapping(value = "/getjoinedcourse",method = RequestMethod.POST)
     public List<CourseItem> getJoinedCourse(HttpServletRequest request,
-                                            @RequestParam("uid")int uid){
-        return memberService.getJoinedCourse(uid);
+                                            @RequestParam("uid")String uid){
+        return memberService.getJoinedCourse(Integer.valueOf(uid));
     }
     @RequestMapping(value = "/getcreatecourse",method = RequestMethod.POST)
-    public List<CourseItem> getCreateCourse(@RequestParam("uid")int uid){
-        return courseService.getCreateCourse(uid);
+    public List<CourseItem> getCreateCourse(@RequestParam("uid")String uid){
+        return courseService.getCreateCourse(Integer.valueOf(uid));
     }
     @RequestMapping(value = "/checkclassexist", method = RequestMethod.POST)
-    public boolean checkClassExist(@RequestParam("cid")int cid){
-        return courseService.checkCourseExist(cid);
+    public boolean checkClassExist(@RequestParam("cid")String cid){
+        return courseService.checkCourseExist(Integer.valueOf(cid));
     }
     @RequestMapping(value = "/exitclass",method = RequestMethod.POST)
-    public boolean exitClass(@RequestParam("uid")int uid,@RequestParam("cid")int cid){
-        return memberService.exitClass(uid,cid);
+    public boolean exitClass(@RequestParam("uid")String uid,@RequestParam("cid")String cid){
+        return memberService.exitClass(Integer.valueOf(uid),Integer.valueOf(cid));
     }
     @RequestMapping(value = "/getstudents",method = RequestMethod.POST)
     public List<Users> getStudents(HttpServletRequest request,
-                                   @RequestParam("cid")int cid){
-        return memberService.getClassMember(cid);
+                                   @RequestParam("cid")String cid){
+        return memberService.getClassMember(Integer.valueOf(cid));
     }
     //todo 封面先传一个String，上传图片之后做
     @RequestMapping(value = "/updatecourse",method = RequestMethod.POST)
-    public boolean updateCourse(@RequestParam("cid")int cid,@RequestParam("profile")String profile,
+    public boolean updateCourse(@RequestParam("cid")String cid,@RequestParam("profile")String profile,
                                 @RequestParam("cover")String cover,@RequestParam("semester")String semester,
                                 @RequestParam("canjoin")String canjoin,@RequestParam("cname")String cname){
         Course course=new Course();
         course.setCover(cover);
-        course.setCid(cid);
+        course.setCid(Integer.valueOf(cid));
         course.setCname(cname);
         course.setCanjoin(canjoin);
         course.setSemester(semester);

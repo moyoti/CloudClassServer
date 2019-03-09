@@ -46,7 +46,7 @@ public class MemberServiceImpl implements MemberService {
     public List<CourseItem> getJoinedCourse(int uid) {
         try{
             MemberExample memberExample=new MemberExample();
-            memberExample.or().andUidEqualTo(uid);
+            memberExample.or().andUidEqualTo(uid).andRoleEqualTo("S");
             List<Member> memberList=memberMapper.selectByExample(memberExample);
             List<Course> courseList=new ArrayList<>();
             List<CourseItem> courseItems=new ArrayList<>();

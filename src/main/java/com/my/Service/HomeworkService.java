@@ -1,6 +1,10 @@
 package com.my.Service;
 
 import com.my.pojo.Homework;
+import com.my.pojo.HomeworkResultItem;
+import com.my.pojo.Homeworkresult;
+
+import java.util.List;
 
 /**
  * @Author: dongqihang
@@ -10,4 +14,9 @@ public interface HomeworkService {
     boolean addHomework(Homework homework);
     boolean closeHomework(Homework homework);
     boolean updateHomework(Homework homework);
+    Homework getHomeworkById(int hid);
+    List<Homework> getHomeworksById(int cid);
+    List<HomeworkResultItem> getResults(int hid);
+    List<HomeworkResultItem> getResultsByUser(int uid);
+    boolean doHomework(Homeworkresult homeworkresult);
 }

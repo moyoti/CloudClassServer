@@ -37,16 +37,23 @@ public class UsersServiceImpl implements UsersService {
     @Override
     public boolean login(Users users) {
         try{
+//            System.out.println(users.getEmail());
+//            System.out.println(users.getPassword());
             UsersExample usersExample=new UsersExample();
             usersExample.or().andEmailEqualTo(users.getEmail());
             List<Users> user=usersMapper.selectByExample(usersExample);
 //            if(EncodeMD5.encode(users.getPassword()).equals(user.get(0).getPassword())){
 //                return true;
 //            }
+//            System.out.println("--------------------");
+//            System.out.println(users.getPassword());
+//            System.out.println(user.get(0).getPassword());
+//            System.out.println("-------------------");
             if(users.getPassword().equals(user.get(0).getPassword())){
                 return true;
             }
         }catch (Exception e){
+            e.printStackTrace();
             return false;
         }
         return false;

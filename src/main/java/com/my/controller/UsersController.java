@@ -26,11 +26,19 @@ public class UsersController {
     private UsersService usersService;
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public boolean usersLogin(HttpServletRequest request, @RequestParam("email") String email, @RequestParam("password") String password) {
+    public String[] usersLogin(HttpServletRequest request, @RequestParam("email") String email, @RequestParam("password") String password) {
         Users users = new Users();
         users.setEmail(email);
         users.setPassword(password);
-        return usersService.login(users);
+        System.out.println(email);
+        System.out.println(password);
+        int id = -1;
+        boolean correct = usersService.login(users);
+        if(correct) {
+             id = usersService.getUidByEmail(email);
+        }
+        String[] result = {id+"",correct+""};
+        return result;
     }
 
     @RequestMapping(value = "/loginpc", method = RequestMethod.POST)
@@ -61,19 +69,19 @@ public class UsersController {
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public boolean usersRegister(HttpServletRequest request,
-                                 @RequestParam("email") String email, @RequestParam("password") String password) {
+                                 @Param("email") String email, @Param("password") String password) {
         Users users=new Users();
+        System.out.println("Outside try");
         try{
+            System.out.println("Inside try");
             users.setEmail(email);
             users.setPassword(password);
 //            users.setGender(gender);
 //            users.setName(name);
 //            users.setPhone(phone);
-            EmailSender emailSender=new EmailSender();
-            emailSender.send("标题","中文测试",new String[]{email});
-            System.out.println("success");
+//            EmailSender emailSender=new EmailSender();
+//            emailSender.send("title","content",new String[]{email});
         }catch (Exception e){
-            e.printStackTrace();
             return false;
         }
 
@@ -101,31 +109,28 @@ public class UsersController {
         return validationcode;
     }
 
-    @RequestMapping(value = "/userinfo",method = RequestMethod.POST)
-    public Users getUserInfo(@RequestParam("uid")int uid){
-        return usersService.getUsersInfo(uid);
-    }
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     public boolean updateUsersInfo(HttpServletRequest request,
-                                   @RequestParam("email") String email, @RequestParam("password") String password,
-                                   @RequestParam("name") String name, @RequestParam("phone")String phone,
-                                   @RequestParam("gender") String gender,@RequestParam("yob") int yob){
+                                   @Param("email") String email, @Param("password") String password,
+                                   @Param("name") String name, @Param("phone")String phone,
+                                   @Param("gender") String gender,@Param("yob") int yob){
         Users users=new Users();
         users.setEmail(email);
         users.setPassword(password);
         users.setGender(gender);
         users.setName(name);
         users.setPhone(phone);
-
         return usersService.updateUsersInfo(users);
     }
     @RequestMapping(value = "/emailCheck", method = RequestMethod.POST)
     public boolean checkEmailAvailable(HttpServletRequest request,
-                                       @RequestParam("email") String email){
+                                       @Param("email") String email){
         return usersService.checkEmailAvailable(email);
     }
     @RequestMapping(value = "/getuidbyemail",method = RequestMethod.POST)
     public int getUidByEmail(@RequestParam("email")String email){
+        System.out.println("Email is "+email);
+        System.out.println(usersService.getUidByEmail(email));
         return usersService.getUidByEmail(email);
     }
 }

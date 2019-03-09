@@ -45,7 +45,7 @@ public class CourseController {
     @RequestMapping(value = "/getallclass",method = RequestMethod.POST)
     public List<CourseItem> getAllClass(@RequestParam("uid")int uid){
         List<CourseItem> courseItems=new ArrayList<>();
-        courseItems.addAll(courseService.getCreateCourse(uid));
+//        courseItems.addAll(courseService.getCreateCourse(uid));
         courseItems.addAll(memberService.getJoinedCourse(uid));
         return courseItems;
     }

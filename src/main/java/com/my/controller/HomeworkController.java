@@ -103,5 +103,6 @@ public class HomeworkController {
         homeworkresult.setAnswer(answer);
         homeworkresult.setValue(0);
         homeworkService.doHomework(homeworkresult);
+        return true;
     }
 }

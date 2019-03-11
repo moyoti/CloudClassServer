@@ -25,12 +25,12 @@ public class CourseServiceImpl implements CourseService {
     @Autowired
     private UsersMapper usersMapper;
     @Override
-    public boolean CreateCourse(Course course) {
+    public int CreateCourse(Course course) {
         try{
-            courseMapper.insert(course);
-            return true;
+
+            return courseMapper.insert(course);
         }catch (Exception e){
-            return false;
+            return -1;
         }
     }
 

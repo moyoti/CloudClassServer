@@ -15,4 +15,5 @@ public interface ResourceService {
     boolean uploadFile(int cid, Resource resource, MultipartFile file);//数据库插入和文件存储
     List<Resource> searchResources(int cid);
     Resource getResource(int rid);
+    boolean uploadpic(String url, MultipartFile file);
 }

@@ -13,6 +13,6 @@ import java.util.List;
 public interface MemberService {
     List<Users> getClassMember(int cid);
     List<CourseItem> getJoinedCourse(int uid);
-    boolean joinClass(int uid,int cid);
+    boolean joinClass(int uid,int cid,String role, String name);
     boolean exitClass(int uid,int cid);
 }

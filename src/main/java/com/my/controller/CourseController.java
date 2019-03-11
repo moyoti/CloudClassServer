@@ -2,6 +2,7 @@ package com.my.controller;
 
 import com.my.Service.CourseService;
 import com.my.Service.MemberService;
+import com.my.dao.UsersMapper;
 import com.my.pojo.Course;
 import com.my.pojo.CourseItem;
 import com.my.pojo.Users;
@@ -27,19 +28,18 @@ public class CourseController {
     private CourseService courseService;
     @Autowired
     private MemberService memberService;
+    @Autowired
+    private UsersMapper usersMapper;
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     //todo cover的上传稍后做，先传入一个String初期尝试
-    public boolean createCourse(HttpServletRequest request,
-                                @RequestParam("cname")String cname,@RequestParam("cover")String cover,
-                                @RequestParam("semester") String semester,@RequestParam("canjoin") String canjoin,
-                                @RequestParam("teacher")String teacher,@RequestParam("profile")String profile){
+    public int createCourse(HttpServletRequest request,
+                                @RequestParam("coursename")String coursename,
+                                @RequestParam("uid")String teacher,@RequestParam("profile")String profile){
         Course course=new Course();
-        course.setCanjoin(canjoin);
-        course.setCname(cname);
+        course.setCanjoin("Y");
+        course.setCname(coursename);
         course.setProfile(profile);
         course.setTeacher(Integer.valueOf(teacher));
-        course.setSemester(semester);
-        course.setCover(cover);
         return courseService.CreateCourse(course);
     }
     @RequestMapping(value = "/getallclass",method = RequestMethod.POST)
@@ -60,8 +60,20 @@ public class CourseController {
         return courseService.getCreateCourse(Integer.valueOf(uid));
     }
     @RequestMapping(value = "/checkclassexist", method = RequestMethod.POST)
-    public boolean checkClassExist(@RequestParam("cid")String cid){
-        return courseService.checkCourseExist(Integer.valueOf(cid));
+    public List<CourseItem> checkClassExist(@RequestParam("cid")String cid){
+        boolean exist = courseService.checkCourseExist(Integer.valueOf(cid));
+        if(exist) {
+            Course course = courseService.searchCourse(Integer.parseInt(cid));
+            List<CourseItem> courseItems=new ArrayList<>();
+            CourseItem courseItem=new CourseItem();
+            courseItem.setCourse(course);
+            courseItem.setTeacherName(usersMapper.selectByPrimaryKey(course.getTeacher()).getName());
+            courseItems.add(courseItem);
+            return courseItems;
+        }else{
+            return null;
+        }
+//        return courseService.checkCourseExist(Integer.valueOf(cid));
     }
     @RequestMapping(value = "/exitclass",method = RequestMethod.POST)
     public boolean exitClass(@RequestParam("uid")String uid,@RequestParam("cid")String cid){

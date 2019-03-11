@@ -67,10 +67,12 @@ public class MemberServiceImpl implements MemberService {
 
     //todo 除这两个字段其他字段如何处理,还需要检查用户是否已经参与到班课中,controller目前还没添加相应接口
     @Override
-    public boolean joinClass(int uid, int cid) {
+    public boolean joinClass(int uid, int cid, String role, String name) {
         Member member=new Member();
         member.setCid(cid);
         member.setUid(uid);
+        member.setName(name);
+        member.setRole(role);
         try{
             memberMapper.insert(member);
             return true;

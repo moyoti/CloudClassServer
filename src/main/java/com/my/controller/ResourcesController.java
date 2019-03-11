@@ -30,13 +30,20 @@ public class ResourcesController {
         return resourceService.getResource(rid);
     }
     //todo 文件上传
-    @RequestMapping(value = "uploadfile",method = RequestMethod.POST)
+    @RequestMapping(value = "/uploadfile",method = RequestMethod.POST)
     public boolean uploadFile(@RequestParam("file")MultipartFile file,@RequestParam("name")String name,
                               @RequestParam("status")String status,@RequestParam("cid")int cid){
         Resource resource=new Resource();
         resource.setName(name);
         resource.setStatus(status);
         resourceService.uploadFile(cid,resource,file);
+        return false;
+    }
+    //头像/班课cover上传/更新
+    @RequestMapping(value = "/uploadpic",method = RequestMethod.POST)
+    public boolean uploadpic(@RequestParam("file")MultipartFile file,@RequestParam("path")String path){
+
+        resourceService.uploadpic(path ,file);
         return false;
     }
 }

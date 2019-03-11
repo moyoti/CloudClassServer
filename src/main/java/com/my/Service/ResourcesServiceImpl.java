@@ -47,6 +47,22 @@ public class ResourcesServiceImpl implements ResourceService {
     }
 
     @Override
+    //todo 文件上传
+    public boolean uploadpic(String url, MultipartFile file) {
+        String targetURL = "C:\\resource\\img"+url;
+        if(file.isEmpty()){
+            return false;
+        }
+        File tarFile = new File(targetURL, file.getOriginalFilename());
+        try {
+            file.transferTo(tarFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    @Override
     public List<Resource> searchResources(int cid) {
         ResourcesClassExample resourcesClassExample=new ResourcesClassExample();
         resourcesClassExample.or().andCidEqualTo(cid);

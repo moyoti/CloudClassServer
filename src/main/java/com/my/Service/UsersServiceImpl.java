@@ -49,7 +49,9 @@ public class UsersServiceImpl implements UsersService {
 //            System.out.println(users.getPassword());
 //            System.out.println(user.get(0).getPassword());
 //            System.out.println("-------------------");
-            if(users.getPassword().equals(user.get(0).getPassword())){
+            if(user==null){
+                return false;
+            }else if(users.getPassword().equals(user.get(0).getPassword())){
                 return true;
             }
         }catch (Exception e){
@@ -65,6 +67,7 @@ public class UsersServiceImpl implements UsersService {
             usersMapper.updateByPrimaryKey(users);
             return true;
         }catch (Exception e){
+            e.printStackTrace();
             return false;
         }
 

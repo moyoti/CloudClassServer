@@ -27,8 +27,8 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public int CreateCourse(Course course) {
         try{
-
-            return courseMapper.insert(course);
+            int id = courseMapper.insert(course);
+            return course.getCid();
         }catch (Exception e){
             return -1;
         }

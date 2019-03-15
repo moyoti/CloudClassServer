@@ -19,4 +19,5 @@ public interface HomeworkService {
     List<HomeworkResultItem> getResults(int hid);
     List<HomeworkResultItem> getResultsByUser(int uid);
     boolean doHomework(Homeworkresult homeworkresult);
+    boolean deleteHomework(int hid);
 }

@@ -87,14 +87,9 @@ public class CourseController {
     //todo 封面先传一个String，上传图片之后做
     @RequestMapping(value = "/updatecourse",method = RequestMethod.POST)
     public boolean updateCourse(@RequestParam("cid")String cid,@RequestParam("profile")String profile,
-                                @RequestParam("cover")String cover,@RequestParam("semester")String semester,
-                                @RequestParam("canjoin")String canjoin,@RequestParam("cname")String cname){
-        Course course=new Course();
-        course.setCover(cover);
-        course.setCid(Integer.valueOf(cid));
-        course.setCname(cname);
-        course.setCanjoin(canjoin);
-        course.setSemester(semester);
+                                @RequestParam("coursename")String coursename,@RequestParam("classname")String classname){
+        Course course=courseService.searchCourse(Integer.parseInt(cid));
+        course.setCname(coursename);
         course.setProfile(profile);
         int updatere=courseService.updateCourseInfo(course);
         if(updatere>0){

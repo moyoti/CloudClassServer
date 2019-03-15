@@ -72,6 +72,16 @@ public class HomeworkServiceImpl implements HomeworkService {
     }
 
     @Override
+    public boolean deleteHomework(int hid) {
+        try{
+            homeworkMapper.deleteByPrimaryKey(hid);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    @Override
     public List<HomeworkResultItem> getResults(int hid) {
         HomeworkresultExample homeworkresultExample=new HomeworkresultExample();
         homeworkresultExample.or().andHidEqualTo(hid);
@@ -121,4 +131,6 @@ public class HomeworkServiceImpl implements HomeworkService {
         }
 
     }
+
+
 }

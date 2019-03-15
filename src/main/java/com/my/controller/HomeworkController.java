@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -24,9 +25,9 @@ public class HomeworkController {
     private HomeworkService homeworkService;
 
     @RequestMapping(value = "/addhomework",method = RequestMethod.POST)
-    public boolean addHomework(@RequestParam("status")String status,@RequestParam("cid")String cid,
+    public boolean addHomework(@RequestParam("status")String status,@RequestParam("cid")String cid,@RequestParam("profile")String profile,
 //                               @RequestParam("starttime")String startTime,@RequestParam("endtime")String endTime,
-                               @RequestParam("question")String question){
+                               @RequestParam("question")String question,@RequestParam("value")String value){
         try{
             Homework homework=new Homework();
             homework.setStatus(status);
@@ -45,6 +46,9 @@ public class HomeworkController {
     public boolean closeHomework(@RequestParam("hid")String hid){
         try{
             //todo 作业状态有哪些？
+            Homework homework = homeworkService.getHomeworkById(Integer.parseInt(hid));
+            homework.setStatus("concluded");
+            homeworkService.updateHomework(homework);
 //            homeworkService.closeHomework()
             return true;
         }catch (Exception e){
@@ -67,17 +71,16 @@ public class HomeworkController {
         }
     }
     @RequestMapping(value = "/gethomeworks",method = RequestMethod.POST)
-    public List getHomeworksById(@RequestParam("cid")String cid){
+    public List<Homework> getHomeworksById(@RequestParam("cid")String cid){
         return homeworkService.getHomeworksById(Integer.valueOf(cid));
     }
     @RequestMapping(value = "/updateInfo",method = RequestMethod.POST)
     public boolean updateHomeworkInfo(@RequestParam("status")String status,@RequestParam("question")String question,
-                                      @RequestParam("hid")String hid){
+                                      @RequestParam("hid")String hid,@RequestParam("value")String value,@RequestParam("profile")String profile){
         try{
             //todo 测试update用法，观察更新后cid是否改变
-            Homework homework=new Homework();
+            Homework homework=homeworkService.getHomeworkById(Integer.parseInt(hid));
             homework.setStatus(status);
-            homework.setHid(Integer.valueOf(hid));
             homework.setQuestion(question);
             return true;
         }catch (Exception e){
@@ -89,9 +92,12 @@ public class HomeworkController {
     public List getResult(@RequestParam("hid")String hid){
         return homeworkService.getResults(Integer.valueOf(hid));
     }
+
     @RequestMapping(value = "/gethomeworkbyid",method = RequestMethod.POST)
-    public Homework getHomework(@RequestParam("hid")String hid){
-        return homeworkService.getHomeworkById(Integer.valueOf(hid));
+    public List<Homework> getHomework(@RequestParam("hid")String hid){
+        List<Homework> list = new ArrayList<>();
+        list.add(homeworkService.getHomeworkById(Integer.valueOf(hid)));
+        return list;
     }
 
     @RequestMapping(value = "/doHomework",method = RequestMethod.POST)
@@ -105,4 +111,16 @@ public class HomeworkController {
         homeworkService.doHomework(homeworkresult);
         return true;
     }
+
+    @RequestMapping(value = "/deletehomework",method = RequestMethod.POST)
+    public boolean deletehomework(@RequestParam("hid")String hid, @RequestParam("code")String code){
+        if(code.equals("1")) {
+            return homeworkService.deleteHomework(Integer.parseInt(hid));
+        }else{
+            //删除homework和homeworkresult相关数据
+            return homeworkService.deleteHomework(Integer.parseInt(hid));
+        }
+    }
+
+
 }

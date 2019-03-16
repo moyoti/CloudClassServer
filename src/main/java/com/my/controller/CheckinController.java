@@ -6,7 +6,6 @@ import com.my.Service.MemberService;
 import com.my.pojo.Checkin;
 import com.my.pojo.Checkresult;
 import com.my.pojo.Users;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;

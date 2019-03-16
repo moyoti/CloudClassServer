@@ -11,7 +11,7 @@ import java.util.List;
  * @Date: Created in 16:27 2019/2/20
  */
 public interface HomeworkService {
-    boolean addHomework(Homework homework);
+    int addHomework(Homework homework);
     boolean closeHomework(Homework homework);
     boolean updateHomework(Homework homework);
     Homework getHomeworkById(int hid);
@@ -20,4 +20,6 @@ public interface HomeworkService {
     List<HomeworkResultItem> getResultsByUser(int uid);
     boolean doHomework(Homeworkresult homeworkresult);
     boolean deleteHomework(int hid);
+    int getIdByuidhid(int uid, int hid);
+    Homeworkresult getHomeworkResult(int hrid);
 }

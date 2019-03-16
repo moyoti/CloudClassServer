@@ -30,7 +30,7 @@ public class MemberServiceImpl implements MemberService {
     public List<Users> getClassMember(int cid) {
         try{
             MemberExample memberExample=new MemberExample();
-            memberExample.or().andCidEqualTo(cid);
+            memberExample.or().andCidEqualTo(cid).andRoleEqualTo("S");
             List<Member> memberList=memberMapper.selectByExample(memberExample);
             List<Users> usersList=new ArrayList<>();
             for(Member member:memberList){

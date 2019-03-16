@@ -3,7 +3,6 @@ package com.my.Service;
 import com.my.dao.UsersMapper;
 import com.my.pojo.Users;
 import com.my.pojo.UsersExample;
-import com.my.util.EncodeMD5;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

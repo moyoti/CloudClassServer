@@ -1,16 +1,15 @@
 package com.my.controller;
 
+import com.my.Service.CourseService;
 import com.my.Service.HomeworkService;
-import com.my.pojo.Homework;
-import com.my.pojo.Homeworkresult;
-import org.springframework.aop.target.LazyInitTargetSource;
+import com.my.Service.MemberService;
+import com.my.pojo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +22,9 @@ import java.util.List;
 public class HomeworkController {
     @Autowired
     private HomeworkService homeworkService;
+    @Autowired
+    private MemberService memberService;
+
 
     @RequestMapping(value = "/addhomework",method = RequestMethod.POST)
     public boolean addHomework(@RequestParam("status")String status,@RequestParam("cid")String cid,@RequestParam("profile")String profile,
@@ -32,10 +34,20 @@ public class HomeworkController {
             Homework homework=new Homework();
             homework.setStatus(status);
             homework.setCid(Integer.valueOf(cid));
-//            homework.setEndtime(Date.valueOf(endTime));
-//            homework.setStarttime(Date.valueOf(startTime));
+            homework.setProfile(profile);
+            homework.setValue(Integer.parseInt(value));
             homework.setQuestion(question);
-            homeworkService.addHomework(homework);
+            int id = homeworkService.addHomework(homework);
+            //homeworkresult表插入全班数据
+            List<Users> memberlist = memberService.getClassMember(Integer.parseInt(cid));
+            for(int i = 0; i<memberlist.size();i++){
+                Homeworkresult result = new Homeworkresult();
+                result.setValue(-2);
+                result.setHid(id);
+                result.setUid(memberlist.get(i).getUid());
+                result.setAnswer("");
+                homeworkService.doHomework(result);
+            }
             return true;
         }catch (Exception e){
             e.printStackTrace();
@@ -80,6 +92,8 @@ public class HomeworkController {
         try{
             //todo 测试update用法，观察更新后cid是否改变
             Homework homework=homeworkService.getHomeworkById(Integer.parseInt(hid));
+            homework.setValue(Integer.parseInt(value));
+            homework.setProfile(profile);
             homework.setStatus(status);
             homework.setQuestion(question);
             return true;
@@ -101,13 +115,10 @@ public class HomeworkController {
     }
 
     @RequestMapping(value = "/doHomework",method = RequestMethod.POST)
-    public boolean doHomework(@RequestParam("uid")String uid,@RequestParam("hid")String hid,
-                              @RequestParam("answer")String answer){
-        Homeworkresult homeworkresult=new Homeworkresult();
-        homeworkresult.setHid(Integer.valueOf(hid));
-        homeworkresult.setUid(Integer.valueOf(uid));
+    public boolean doHomework(@RequestParam("hrid")String hrid,@RequestParam("answer")String answer){
+        Homeworkresult homeworkresult=homeworkService.getHomeworkResult(Integer.parseInt(hrid));
         homeworkresult.setAnswer(answer);
-        homeworkresult.setValue(0);
+        homeworkresult.setValue(-1);
         homeworkService.doHomework(homeworkresult);
         return true;
     }
@@ -117,9 +128,53 @@ public class HomeworkController {
         if(code.equals("1")) {
             return homeworkService.deleteHomework(Integer.parseInt(hid));
         }else{
-            //删除homework和homeworkresult相关数据
+            //todo 删除homework和homeworkresult相关数据
             return homeworkService.deleteHomework(Integer.parseInt(hid));
         }
+    }
+
+    @RequestMapping(value = "/gethomeworkresult",method = RequestMethod.POST)
+    public List<Homeworkresult> gethomeworkresult(@RequestParam("hid")String hid, @RequestParam("uid")String uid){
+        int hrid = homeworkService.getIdByuidhid(Integer.parseInt(uid),Integer.parseInt(hid));
+//        System.out.println("hrid is "+hrid);
+        List<Homeworkresult> list = new ArrayList<>();
+        list.add(homeworkService.getHomeworkResult(hrid));
+        return list;
+    }
+
+    @RequestMapping(value = "/getcheckhomework",method = RequestMethod.POST)
+    public List<CheckhomeworkItem> getcheckhomework(@RequestParam("hrid")String hrid){
+        List<CheckhomeworkItem> list = new ArrayList<>();
+        CheckhomeworkItem item = new CheckhomeworkItem();
+
+        Homeworkresult hr = homeworkService.getHomeworkResult(Integer.parseInt(hrid));
+        item.setHrid(hr.getHrid());
+        item.setAnswer(hr.getAnswer());
+        item.setScore(hr.getValue());
+
+        Homework homework = homeworkService.getHomeworkById(hr.getHid());
+        item.setTitle(homework.getQuestion());
+        item.setProfile(homework.getProfile());
+        item.setValue(homework.getValue());
+
+        list.add(item);
+        return list;
+    }
+
+    @RequestMapping(value = "/checkhomework",method = RequestMethod.POST)
+    public boolean checkhomeworkresult(@RequestParam("hrid")String hrid, @RequestParam("score")String score){
+        Homeworkresult homeworkresult = homeworkService.getHomeworkResult(Integer.parseInt(hrid));
+        homeworkresult.setValue(Integer.parseInt(score));
+
+        return homeworkService.doHomework(homeworkresult);
+    }
+
+    @RequestMapping(value = "/studentgethomeworkresult",method = RequestMethod.POST)
+    public List<Homeworkresult> studentgethomeworkresult(@RequestParam("hid")String hid, @RequestParam("uid")String uid){
+        List<Homeworkresult> list = new ArrayList<>();
+        int hrid = homeworkService.getIdByuidhid(Integer.parseInt(uid),Integer.parseInt(hid));
+        list.add(homeworkService.getHomeworkResult(hrid));
+        return list;
     }
 
 

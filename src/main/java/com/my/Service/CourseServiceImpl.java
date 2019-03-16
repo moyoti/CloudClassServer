@@ -5,7 +5,6 @@ import com.my.dao.UsersMapper;
 import com.my.pojo.Course;
 import com.my.pojo.CourseExample;
 import com.my.pojo.CourseItem;
-import com.my.pojo.Users;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

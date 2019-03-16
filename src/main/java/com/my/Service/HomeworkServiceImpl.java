@@ -1,6 +1,5 @@
 package com.my.Service;
 
-import com.fasterxml.jackson.databind.annotation.JsonAppend;
 import com.my.dao.HomeworkMapper;
 import com.my.dao.HomeworkresultMapper;
 import com.my.dao.UsersMapper;
@@ -8,7 +7,6 @@ import com.my.pojo.*;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,12 +25,13 @@ public class HomeworkServiceImpl implements HomeworkService {
     @Autowired
     private UsersMapper usersMapper;
     @Override
-    public boolean addHomework(Homework homework) {
+    public int addHomework(Homework homework) {
         try{
             homeworkMapper.insert(homework);
-            return true;
+            int id = homework.getHid();
+            return id;
         }catch (Exception e){
-            return false;
+            return -1;
         }
     }
 
@@ -117,13 +116,13 @@ public class HomeworkServiceImpl implements HomeworkService {
     @Override
     public boolean doHomework(Homeworkresult homeworkresult) {
         try{
-            HomeworkresultExample homeworkresultExample=new HomeworkresultExample();
-            homeworkresultExample.or().andUidEqualTo(homeworkresult.getHid()).andHidEqualTo(homeworkresult.getHid());
-            if(homeworkresultMapper.selectByExample(homeworkresultExample).isEmpty()){
-                homeworkresultMapper.insert(homeworkresult);
-            }else {
+//            HomeworkresultExample homeworkresultExample=new HomeworkresultExample();
+//            homeworkresultExample.or().andUidEqualTo(homeworkresult.getHid()).andHidEqualTo(homeworkresult.getHid());
+//            if(homeworkresultMapper.selectByExample(homeworkresultExample).isEmpty()){
+//                homeworkresultMapper.insert(homeworkresult);
+//            }else {
                 homeworkresultMapper.updateByPrimaryKey(homeworkresult);
-            }
+//            }
             return true;
         }catch (Exception e){
             e.printStackTrace();
@@ -132,5 +131,18 @@ public class HomeworkServiceImpl implements HomeworkService {
 
     }
 
+    @Override
+    public int getIdByuidhid(int uid, int hid) {
+        System.out.println("Uid is "+uid);
+        System.out.println("His is "+hid);
+        HomeworkresultExample homeworkresultExample=new HomeworkresultExample();
+        homeworkresultExample.or().andUidEqualTo(uid).andHidEqualTo(hid);
 
+        return homeworkresultMapper.selectByExample(homeworkresultExample).get(0).getHrid();
+    }
+
+    @Override
+    public Homeworkresult getHomeworkResult(int hrid) {
+        return homeworkresultMapper.selectByPrimaryKey(hrid);
+    }
 }

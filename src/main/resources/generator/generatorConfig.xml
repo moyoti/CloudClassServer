@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
 
 <generatorConfiguration>
-    <classPathEntry  location="C:\Users\MY\.m2\repository\mysql\mysql-connector-java\5.1.35\mysql-connector-java-5.1.35.jar"/>
+    <classPathEntry  location="C:\Users\williamwu\.m2\repository\mysql\mysql-connector-java\5.1.35\mysql-connector-java-5.1.35.jar"/>
     <context id="caigouTables" targetRuntime="MyBatis3">
         <commentGenerator>
             <!-- 是否去除自动生成的注释 true：是 ： false:否 -->
@@ -58,10 +58,10 @@
         <!--</table>-->
         <!--<table schema="cloudclass" tableName="checkresult">-->
         <!--</table>-->
-        <!--<table schema="cloudclass" tableName="course">-->
-        <!--</table>-->
-        <table schema="cloudclass" tableName="homework">
+        <table schema="cloudclass" tableName="course">
         </table>
+        <!--<table schema="cloudclass" tableName="homework">-->
+        <!--</table>-->
         <!--<table schema="cloudclass" tableName="homeworkresult">-->
         <!--</table>-->
         <!--<table schema="cloudclass" tableName="member">-->

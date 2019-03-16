@@ -1,6 +1,5 @@
 package com.my.Service;
 
-import com.my.pojo.Course;
 import com.my.pojo.CourseItem;
 import com.my.pojo.Users;
 

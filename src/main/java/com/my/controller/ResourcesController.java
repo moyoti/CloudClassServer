@@ -36,6 +36,7 @@ public class ResourcesController {
         Resource resource=new Resource();
         resource.setName(name);
         resource.setStatus(status);
+
         resourceService.uploadFile(cid,resource,file);
         return false;
     }

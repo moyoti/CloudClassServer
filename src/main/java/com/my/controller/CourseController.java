@@ -5,6 +5,7 @@ import com.my.Service.MemberService;
 import com.my.dao.UsersMapper;
 import com.my.pojo.Course;
 import com.my.pojo.CourseItem;
+import com.my.pojo.Member;
 import com.my.pojo.Users;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,14 +34,16 @@ public class CourseController {
     //todo cover的上传稍后做，先传入一个String初期尝试
     public int createCourse(HttpServletRequest request,
                                 @RequestParam("coursename")String coursename,@RequestParam("classname")String classname,
-                                @RequestParam("uid")String teacher,@RequestParam("profile")String profile){
+                                @RequestParam("uid")String teacher,@RequestParam("profile")String profile,@RequestParam("personname")String personname){
         Course course=new Course();
         course.setCanjoin("Y");
         course.setClassname(classname);
         course.setCname(coursename);
         course.setProfile(profile);
         course.setTeacher(Integer.valueOf(teacher));
-        return courseService.CreateCourse(course);
+        int cid = courseService.CreateCourse(course);
+        memberService.joinClass(Integer.parseInt(teacher),cid,"T",personname);
+        return cid;
     }
     @RequestMapping(value = "/getallclass",method = RequestMethod.POST)
     public List<CourseItem> getAllClass(@RequestParam("uid")String uid){

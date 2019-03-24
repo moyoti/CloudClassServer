@@ -9,7 +9,7 @@ import org.mybatis.spring.annotation.MapperScan;
  */
 @MapperScan("com.my.dao")
 public interface UsersService {
-    boolean signUp(Users users);
+    int signUp(Users users);
     boolean login(Users users);
     boolean updateUsersInfo(Users users);
     boolean checkEmailAvailable(String email);

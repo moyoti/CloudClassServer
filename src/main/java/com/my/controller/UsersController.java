@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -76,16 +77,15 @@ public class UsersController {
             System.out.println("Inside try");
             users.setEmail(email);
             users.setPassword(password);
-//            users.setGender(gender);
-//            users.setName(name);
-//            users.setPhone(phone);
-//            EmailSender emailSender=new EmailSender();
-//            emailSender.send("title","content",new String[]{email});
+
         }catch (Exception e){
             return false;
         }
-
-        return usersService.signUp(users);
+        int uid = usersService.signUp(users);
+        //生成头像
+        //复制
+        createHeadpic(uid);
+        return true;
     }
 
     @RequestMapping(value = "/registerValidation", method = RequestMethod.POST)
@@ -165,5 +165,33 @@ public class UsersController {
         List<Users> list = new ArrayList<>();
         list.add(usersService.getUsersInfo(id));
         return list;
+    }
+
+    public void createHeadpic(int uid){
+        File originalFile = new File("C:\\resource\\img\\head_pic\\default.jpg");//指定要读取的图片
+        try {
+            File result = new File("C:\\resource\\img\\head_pic\\"+uid+".jpg");//要写入的图片
+            if (result.exists()) {//校验该文件是否已存在
+                result.delete();//删除对应的文件，从磁盘中删除
+                result = new File("C:\\resource\\img\\head_pic\\"+uid+".jpg");//只是创建了一个File对象，并没有在磁盘下创建文件
+            }
+            if (!result.exists()) {//如果文件不存在
+                result.createNewFile();//会在磁盘下创建文件，但此时大小为0K
+            }
+            FileInputStream in = new FileInputStream(originalFile);
+            FileOutputStream out = new FileOutputStream(result);// 指定要写入的图片
+            int n = 0;// 每次读取的字节长度
+            byte[] bb = new byte[1024];// 存储每次读取的内容
+            while ((n = in.read(bb)) != -1) {
+                out.write(bb, 0, n);// 将读取的内容，写入到输出流当中
+            }
+            //执行完以上后，磁盘下的该文件才完整，大小是实际大小
+            out.close();// 关闭输入输出流
+            in.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -20,15 +20,15 @@ public class UsersServiceImpl implements UsersService {
     private UsersMapper usersMapper;
 
     @Override
-    public boolean signUp(Users users) {
+    public int signUp(Users users) {
         try {
             if(checkEmailAvailable(users.getEmail())){
                 usersMapper.insert(users);
-                return true;
+                return users.getUid();
             }
-            return false;
+            return -1;
         }catch (Exception e){
-            return false;
+            return -1;
         }
     }
 

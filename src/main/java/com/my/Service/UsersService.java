@@ -3,6 +3,8 @@ package com.my.Service;
 import com.my.pojo.Users;
 import org.mybatis.spring.annotation.MapperScan;
 
+import java.util.List;
+
 /**
  * @Author: dongqihang
  * @Date: Created in 14:23 2019/2/20
@@ -15,4 +17,5 @@ public interface UsersService {
     boolean checkEmailAvailable(String email);
     Users getUsersInfo(int uid);
     int getUidByEmail(String email);
+    List<Users> getUsersByEmails(String emails);
 }

@@ -7,6 +7,8 @@ import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -97,5 +99,17 @@ public class UsersServiceImpl implements UsersService {
         UsersExample usersExample=new UsersExample();
         usersExample.or().andEmailEqualTo(email);
         return usersMapper.selectByExample(usersExample).get(0).getUid();
+    }
+
+    @Override
+    public List<Users> getUsersByEmails(String emails) {
+        UsersExample usersExample=new UsersExample();
+        List<String> useremail= new ArrayList<>();
+        for (String i : emails.split("@")) {
+            useremail.add(i.replaceAll("#", "@"));
+        }
+//        Collections.addAll(useremail, emails.split("@"));
+        usersExample.or().andEmailIn(useremail);
+        return usersMapper.selectByExample(usersExample);
     }
 }

@@ -32,14 +32,20 @@ public class ResourcesController {
     }
     //todo 文件上传
     @RequestMapping(value = "/uploadfile",method = RequestMethod.POST)
-    public boolean uploadFile(@RequestParam("file")MultipartFile file,@RequestParam("name")String name,
-                              @RequestParam("status")String status,@RequestParam("cid")int cid){
+    public boolean uploadFile(@RequestParam(value = "files",required=false)MultipartFile[] files,@RequestParam(value = "name",required=false)String name,
+                              @RequestParam(value = "status",required=false)String status,@RequestParam(value = "cid",required=false)String cid){
         Resource resource=new Resource();
         resource.setName(name);
         resource.setStatus(status);
-
-        resourceService.uploadFile(cid,resource,file);
-        return false;
+        try{
+            for (MultipartFile file:files) {
+                resourceService.uploadFile(Integer.valueOf(cid),resource,file);
+            }
+            return true;
+        }catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
     }
     //头像/班课cover上传/更新
     @RequestMapping(value = "/uploadpic",method = RequestMethod.POST)

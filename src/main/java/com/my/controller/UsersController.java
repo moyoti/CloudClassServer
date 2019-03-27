@@ -26,6 +26,10 @@ public class UsersController {
     @Autowired
     private UsersService usersService;
 
+    @RequestMapping(value = "/getusersbyemail",method = RequestMethod.POST)
+    public List<Users> getUsersByEmails(@RequestParam("emails")String emails){
+        return usersService.getUsersByEmails(emails);
+    }
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public String[] usersLogin(HttpServletRequest request, @RequestParam("email") String email, @RequestParam("password") String password) {
         Users users = new Users();

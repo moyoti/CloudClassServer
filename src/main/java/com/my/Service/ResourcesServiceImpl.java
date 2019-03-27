@@ -5,6 +5,7 @@ import com.my.dao.ResourcesClassMapper;
 import com.my.pojo.Resource;
 import com.my.pojo.ResourcesClass;
 import com.my.pojo.ResourcesClassExample;
+import com.my.util.UUIDTool;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,6 +30,8 @@ public class ResourcesServiceImpl implements ResourceService {
     @Override
     //todo 文件上传
     public boolean uploadFile(int cid,Resource resource, MultipartFile file) {
+        String pathname=UUIDTool.getUUID()+"."+file.getOriginalFilename().split("\\.",2)[1];
+        resource.setPath(pathname);
         resourceMapper.insert(resource);
         ResourcesClass resourcesClass=new ResourcesClass();
         resourcesClass.setCid(cid);
@@ -37,7 +40,8 @@ public class ResourcesServiceImpl implements ResourceService {
         if(file.isEmpty()){
             return false;
         }
-        File tarFile = new File(targetURL, file.getOriginalFilename());
+
+        File tarFile = new File(targetURL, pathname);
         try {
             file.transferTo(tarFile);
         } catch (IOException e) {

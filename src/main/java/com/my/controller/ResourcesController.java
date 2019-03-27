@@ -32,13 +32,14 @@ public class ResourcesController {
     }
     //todo 文件上传
     @RequestMapping(value = "/uploadfile",method = RequestMethod.POST)
-    public boolean uploadFile(@RequestParam(value = "files",required=false)MultipartFile[] files,@RequestParam(value = "name",required=false)String name,
+    public boolean uploadFile(@RequestParam(value = "files",required=false)MultipartFile[] files,
                               @RequestParam(value = "status",required=false)String status,@RequestParam(value = "cid",required=false)String cid){
         Resource resource=new Resource();
-        resource.setName(name);
+
         resource.setStatus(status);
         try{
             for (MultipartFile file:files) {
+                resource.setName(file.getOriginalFilename().split("\\.")[0]);
                 resourceService.uploadFile(Integer.valueOf(cid),resource,file);
             }
             return true;

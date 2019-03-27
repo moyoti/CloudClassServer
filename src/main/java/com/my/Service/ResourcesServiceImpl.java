@@ -36,6 +36,7 @@ public class ResourcesServiceImpl implements ResourceService {
         ResourcesClass resourcesClass=new ResourcesClass();
         resourcesClass.setCid(cid);
         resourcesClass.setCid(resource.getRid());
+        resourcesClassMapper.insert(resourcesClass);
         String targetURL = "C:\\resource\\resource";
         if(file.isEmpty()){
             return false;

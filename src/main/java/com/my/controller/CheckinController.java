@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
@@ -32,10 +33,13 @@ public class CheckinController {
 
     @RequestMapping(value = "/addcheckin",method = RequestMethod.POST)
     public boolean checkin(HttpServletRequest request,
-                           @RequestParam("cid")int cid){
+                           @RequestParam("cid")int cid,@RequestParam("checkcode")String checkCode,
+                           @RequestParam("checktime")String checkTime){
         Checkin checkin=new Checkin();
         checkin.setCourseid(cid);
-        checkin.setIsopen("1");
+        checkin.setCheckcode(checkCode);
+        checkin.setChecktime(Timestamp.valueOf(checkTime));
+        checkin.setIsopen("Y");
         List<Users> usersList = memberService.getClassMember(cid);
         if(checkinService.addCheckin(checkin)){
             for(Users users:usersList){
@@ -50,6 +54,20 @@ public class CheckinController {
         }
         return false;
     }
+    @RequestMapping(value = "startcheckin",method = RequestMethod.POST)
+    public int startCheckIn(@RequestParam("cid")String cid,@RequestParam("checkcode")String checkCode,
+                            @RequestParam("checktime")String checkTime){
+        Checkin checkin=new Checkin();
+        checkin.setCourseid(Integer.valueOf(cid));
+        checkin.setCheckcode(checkCode);
+        checkin.setChecktime(Timestamp.valueOf(checkTime));
+        checkin.setIsopen("Y");
+        if (checkinService.addCheckin(checkin)){
+            return checkin.getChid();
+        }
+        return 0;
+    }
+
     @RequestMapping(value = "/closecheckin",method = RequestMethod.POST)
     public boolean closedCheckin(HttpServletRequest request,
                                  @RequestParam("cid") int cid){
@@ -65,6 +83,10 @@ public class CheckinController {
         checkin.setCourseid(cid);
         checkin.setIsopen("1");
         return checkinService.updateCheckin(checkin);
+    }
+    @RequestMapping(value = "/getcheckincode",method = RequestMethod.POST)
+    public String getCheckInCode(@RequestParam("cid")String cid){
+        return checkinService.checkinCode(Integer.valueOf(cid));
     }
     //需要传入修改的状态
     @RequestMapping(value = "/changestatus",method = RequestMethod.POST)

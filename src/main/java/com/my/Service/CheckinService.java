@@ -9,4 +9,5 @@ import com.my.pojo.Checkin;
 public interface CheckinService {
     boolean addCheckin(Checkin checkin);
     boolean updateCheckin(Checkin checkin);
+    String checkinCode(int cid);
 }

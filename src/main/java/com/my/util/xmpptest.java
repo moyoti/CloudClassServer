@@ -101,7 +101,7 @@ public class xmpptest {
                 System.out.println(item.getUser());
             }
             cm=con.getChatManager();
-            Chat chat=cm.createChat("user1@129.204.207.18", new MessageListener() {
+            Chat chat=cm.createChat("asdafdasf@conference.129.204.207.18", new MessageListener() {
                 @Override
                 public void processMessage(Chat chat, Message message) {
 //                    message.setBody("send test");

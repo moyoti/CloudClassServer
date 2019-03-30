@@ -1,5 +1,8 @@
 package com.my.controller;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.my.Service.CheckinResultService;
 import com.my.Service.CheckinService;
 import com.my.Service.MemberService;
@@ -54,7 +57,24 @@ public class CheckinController {
         }
         return false;
     }
-    @RequestMapping(value = "startcheckin",method = RequestMethod.POST)
+    @RequestMapping(value = "/userscheckin",method = RequestMethod.POST)
+    public boolean usersCheckIn(@RequestParam("result")String re){
+        JSONArray ja= JSON.parseArray(re);
+        Checkresult cr=new Checkresult();
+        for (int i=0;i<ja.size();i++){
+            JSONObject jo;
+            jo= (JSONObject) ja.get(i);
+            cr.setUid(jo.getInteger("uid"));
+            cr.setStatus(jo.getString("status"));
+            cr.setChid(jo.getInteger("chid"));
+            cr.setChtime(new Date());
+            if (!checkinResultService.addCheckinResult(cr)){
+                return false;
+            }
+        }
+        return true;
+    }
+    @RequestMapping(value = "/startcheckin",method = RequestMethod.POST)
     public int startCheckIn(@RequestParam("cid")String cid,@RequestParam("checkcode")String checkCode,
                             @RequestParam("checktime")String checkTime){
         Checkin checkin=new Checkin();

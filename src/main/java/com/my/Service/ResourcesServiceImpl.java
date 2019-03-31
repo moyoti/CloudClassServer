@@ -30,6 +30,7 @@ public class ResourcesServiceImpl implements ResourceService {
     @Override
     //todo 文件上传
     public boolean uploadFile(int cid,Resource resource, MultipartFile file) {
+        System.out.println("file name is: "+file.getOriginalFilename());
         String pathname=UUIDTool.getUUID()+"."+file.getOriginalFilename().split("\\.",2)[1];
         resource.setPath(pathname);
         resourceMapper.insert(resource);

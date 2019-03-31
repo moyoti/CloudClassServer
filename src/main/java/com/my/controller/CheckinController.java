@@ -67,7 +67,7 @@ public class CheckinController {
             cr.setUid(jo.getInteger("uid"));
             cr.setStatus(jo.getString("status"));
             cr.setChid(jo.getInteger("chid"));
-            cr.setChtime(new Date());
+//            cr.setChtime(new Date());
             if (!checkinResultService.addCheckinResult(cr)){
                 return false;
             }
@@ -77,6 +77,7 @@ public class CheckinController {
     @RequestMapping(value = "/startcheckin",method = RequestMethod.POST)
     public int startCheckIn(@RequestParam("cid")String cid,@RequestParam("checkcode")String checkCode,
                             @RequestParam("checktime")String checkTime){
+        System.out.println(checkTime);
         Checkin checkin=new Checkin();
         checkin.setCourseid(Integer.valueOf(cid));
         checkin.setCheckcode(checkCode);
@@ -90,10 +91,9 @@ public class CheckinController {
 
     @RequestMapping(value = "/closecheckin",method = RequestMethod.POST)
     public boolean closedCheckin(HttpServletRequest request,
-                                 @RequestParam("cid") int cid){
-        Checkin checkin=new Checkin();
-        checkin.setCourseid(cid);
-        checkin.setIsopen("0");
+                                 @RequestParam("chid") String chid){
+        Checkin checkin= checkinService.getCheckinByChid(chid);
+        checkin.setIsopen("N");
         return checkinService.updateCheckin(checkin);
     }
     @RequestMapping(value = "/opencheckin",method = RequestMethod.POST)
@@ -101,12 +101,14 @@ public class CheckinController {
                                @RequestParam("cid")int cid){
         Checkin checkin=new Checkin();
         checkin.setCourseid(cid);
-        checkin.setIsopen("1");
+        checkin.setIsopen("Y");
         return checkinService.updateCheckin(checkin);
     }
     @RequestMapping(value = "/getcheckincode",method = RequestMethod.POST)
     public String getCheckInCode(@RequestParam("cid")String cid){
-        return checkinService.checkinCode(Integer.valueOf(cid));
+        String code = checkinService.checkinCode(Integer.valueOf(cid));
+        System.out.println(code);
+        return code;
     }
     //需要传入修改的状态
     @RequestMapping(value = "/changestatus",method = RequestMethod.POST)

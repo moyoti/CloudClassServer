@@ -35,7 +35,6 @@ public class ResourcesController {
     public boolean uploadFile(@RequestParam(value = "files",required=false)MultipartFile[] files,
                               @RequestParam(value = "status",required=false)String status,@RequestParam(value = "cid",required=false)String cid){
         Resource resource=new Resource();
-
         resource.setStatus(status);
         try{
             for (MultipartFile file:files) {

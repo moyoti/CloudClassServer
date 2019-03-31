@@ -37,10 +37,16 @@ public class CheckinServiceImpl implements CheckinService {
     }
 
     @Override
+    public Checkin getCheckinByChid(String chid) {
+        return checkinMapper.selectByPrimaryKey(Integer.parseInt(chid));
+    }
+
+
+    @Override
     public String checkinCode(int cid) {
         CheckinExample checkinExample=new CheckinExample();
         checkinExample.or().andCourseidEqualTo(cid).andIsopenEqualTo("Y");
-        Checkin ci=checkinMapper.selectByExample(checkinExample).get(0);
+//        Checkin ci=checkinMapper.selectByExample(checkinExample).get(0);
         if (checkinMapper.selectByExample(checkinExample).isEmpty()){
             return "0000";
         }

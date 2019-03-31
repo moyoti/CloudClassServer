@@ -7,6 +7,8 @@ import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * @Author: dongqihang
  * @Date: Created in 2:05 2019/2/25
@@ -53,4 +55,11 @@ public class CheckinServiceImpl implements CheckinService {
         return checkinMapper.selectByExample(checkinExample).get(0).getCheckcode();
     }
 
+    @Override
+    public List<Checkin> teachergetCheckinRecords(int cid) {
+        CheckinExample checkinExample=new CheckinExample();
+        checkinExample.or().andCourseidEqualTo(cid);
+        List<Checkin> list = checkinMapper.selectByExample(checkinExample);
+        return list;
+    }
 }

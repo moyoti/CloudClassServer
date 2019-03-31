@@ -122,4 +122,9 @@ public class CheckinController {
         checkresult.setUid(uid);
         return checkinResultService.updateCheckinResult(checkresult);
     }
+
+    @RequestMapping(value = "/teachergetcheckinrecords",method = RequestMethod.POST)
+    public List<Checkin> teachergetcheckinrecords(@RequestParam("cid")String cid){
+        return checkinService.teachergetCheckinRecords(Integer.parseInt(cid));
+    }
 }

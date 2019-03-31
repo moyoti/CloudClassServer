@@ -1,5 +1,6 @@
 package com.my.Service;
 
+import com.alibaba.fastjson.JSONObject;
 import com.my.dao.CheckinMapper;
 import com.my.dao.CheckresultMapper;
 import com.my.dao.UsersMapper;
@@ -44,14 +45,17 @@ public class CheckinResultServiceImpl implements  CheckinResultService{
     }
 
     @Override
-    public List<String> getUsersNameBychid(int chid) {
+    public List getUsersNameBychid(int chid) {
         CheckresultExample checkresultExample=new CheckresultExample();
         checkresultExample.or().andChidEqualTo(chid);
         List<Checkresult> checkresults=checkresultMapper.selectByExample(checkresultExample);
-        List<String> usersNames=new ArrayList<>();
+        List<JSONObject> usersNames=new ArrayList<>();
         for (Checkresult item :
                 checkresults) {
-            usersNames.add(usersMapper.selectByPrimaryKey(item.getUid()).getName());
+            JSONObject jo=new JSONObject();
+            jo.put("status",item.getStatus());
+            jo.put("username",usersMapper.selectByPrimaryKey(item.getUid()).getName());
+            usersNames.add(jo);
         }
         return usersNames;
     }

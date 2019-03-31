@@ -11,5 +11,5 @@ import java.util.List;
 public interface CheckinResultService {
     boolean addCheckinResult(Checkresult checkresult);
     boolean updateCheckinResult(Checkresult checkresult);
-    List<String> getUsersNameBychid(int chid);
+    List getUsersNameBychid(int chid);
 }

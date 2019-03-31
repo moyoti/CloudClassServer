@@ -2,10 +2,15 @@ package com.my.Service;
 
 import com.my.dao.CheckinMapper;
 import com.my.dao.CheckresultMapper;
+import com.my.dao.UsersMapper;
 import com.my.pojo.Checkresult;
+import com.my.pojo.CheckresultExample;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @Author: dongqihang
@@ -16,6 +21,8 @@ import org.springframework.stereotype.Service;
 public class CheckinResultServiceImpl implements  CheckinResultService{
     @Autowired
     private CheckresultMapper checkresultMapper;
+    @Autowired
+    private UsersMapper usersMapper;
     @Override
     public boolean addCheckinResult(Checkresult checkresult) {
         try{
@@ -35,4 +42,18 @@ public class CheckinResultServiceImpl implements  CheckinResultService{
             return false;
         }
     }
+
+    @Override
+    public List<String> getUsersNameBychid(int chid) {
+        CheckresultExample checkresultExample=new CheckresultExample();
+        checkresultExample.or().andChidEqualTo(chid);
+        List<Checkresult> checkresults=checkresultMapper.selectByExample(checkresultExample);
+        List<String> usersNames=new ArrayList<>();
+        for (Checkresult item :
+                checkresults) {
+            usersNames.add(usersMapper.selectByPrimaryKey(item.getUid()).getName());
+        }
+        return usersNames;
+    }
+
 }

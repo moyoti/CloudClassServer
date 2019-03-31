@@ -57,6 +57,18 @@ public class CheckinController {
         }
         return false;
     }
+    @RequestMapping(value = "/getusersnamebychid",method = RequestMethod.POST)
+    public List getUsersNameBychid(@RequestParam("chid")String chid){
+        return checkinResultService.getUsersNameBychid(Integer.valueOf(chid));
+    }
+    @RequestMapping(value = "/getcheckinbycid",method = RequestMethod.POST)
+    public List getCheckinByCid(@RequestParam("cid")String cid){
+        return checkinService.getCourseCheckin(Integer.valueOf(cid));
+    }
+    @RequestMapping(value = "/getuserscheckinfo",method = RequestMethod.POST)
+    public List getUsersClassCheckInfo(@RequestParam("cid")String cid,@RequestParam("uid")String uid){
+        return checkinService.getCRInfo(Integer.valueOf(cid),Integer.valueOf(uid));
+    }
     @RequestMapping(value = "/userscheckin",method = RequestMethod.POST)
     public boolean usersCheckIn(@RequestParam("result")String re){
         JSONArray ja= JSON.parseArray(re);

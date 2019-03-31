@@ -1,5 +1,6 @@
 package com.my.Service;
 
+import com.my.pojo.CheckhomeworkItem;
 import com.my.pojo.Checkin;
 import com.my.pojo.Checkresult;
 
@@ -13,6 +14,7 @@ public interface CheckinService {
     boolean addCheckin(Checkin checkin);
     boolean updateCheckin(Checkin checkin);
     String checkinCode(int cid);
-    List<Checkin> getCourseCheckin(int cid);
     List<Checkresult> getCRInfo(int cid, int uid);
+    Checkin getCheckinByChid(String chid);
+    List<Checkin> teachergetCheckinRecords(int cid);
 }

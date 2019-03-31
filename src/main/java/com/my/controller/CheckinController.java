@@ -61,10 +61,6 @@ public class CheckinController {
     public List getUsersNameBychid(@RequestParam("chid")String chid){
         return checkinResultService.getUsersNameBychid(Integer.valueOf(chid));
     }
-    @RequestMapping(value = "/getcheckinbycid",method = RequestMethod.POST)
-    public List getCheckinByCid(@RequestParam("cid")String cid){
-        return checkinService.getCourseCheckin(Integer.valueOf(cid));
-    }
     @RequestMapping(value = "/getuserscheckinfo",method = RequestMethod.POST)
     public List getUsersClassCheckInfo(@RequestParam("cid")String cid,@RequestParam("uid")String uid){
         return checkinService.getCRInfo(Integer.valueOf(cid),Integer.valueOf(uid));

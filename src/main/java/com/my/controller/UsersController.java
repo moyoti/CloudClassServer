@@ -59,7 +59,6 @@ public class UsersController {
             HttpSession session = request.getSession();
             session.setAttribute("username",email);
         }
-
         return usersService.login(users);
     }
 

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>选择创建班级</title>
+    <link rel="stylesheet" href="./css/bootstrap.min.css">
+    <script src="./js/jquery.min.js"></script>
+
+    <script>
+        $(function () {
+            $.ajax({
+                type:"POST",
+                url:"/course/getcreatecoursepc",
+                data:{t:1},
+                success:function (re) {
+                    for (var cs in re){
+                        $("#checkboxgroup").innerHTML+="<label>\n" +
+                            "        <input class=\"checkboxes\" type=\"checkbox\" value=\""+cs+"\">option1\n" +
+                            "    </label>"
+                    }
+                    alert(re);
+                    console.log($(".checkboxes"));
+                }
+            });
+        });
+    </script>
+</head>
+<body>
+<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <a href="#" class="navbar-brand">Cloud Class File Upload</a>
+        </div>
+    </div>
+</nav>
+<div id="checkboxgroup" class="checkbox-inline" style="padding-top: 10%">
+    <label>
+        <input class="checkboxes" type="checkbox" value="">option1
+    </label>
+    <label>
+        <input class="checkboxes" type="checkbox" value="">option2
+    </label>
+</div>
+</body>
+</html>

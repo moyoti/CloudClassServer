@@ -29,15 +29,18 @@ public class ResourcesServiceImpl implements ResourceService {
     private ResourcesClassMapper resourcesClassMapper;
     @Override
     //todo 文件上传
-    public boolean uploadFile(int cid,Resource resource, MultipartFile file) {
+    public boolean uploadFile(List<Integer> cid,Resource resource, MultipartFile file) {
         System.out.println("file name is: "+file.getOriginalFilename());
         String pathname=UUIDTool.getUUID()+"."+file.getOriginalFilename().split("\\.",2)[1];
         resource.setPath(pathname);
         resourceMapper.insert(resource);
-        ResourcesClass resourcesClass=new ResourcesClass();
-        resourcesClass.setCid(cid);
-        resourcesClass.setRid(resource.getRid());
-        resourcesClassMapper.insert(resourcesClass);
+        for (Integer idc :
+                cid) {
+            ResourcesClass resourcesClass=new ResourcesClass();
+            resourcesClass.setCid(idc);
+            resourcesClass.setRid(resource.getRid());
+            resourcesClassMapper.insert(resourcesClass);
+        }
         String targetURL = "C:\\resource\\resource";
         if(file.isEmpty()){
             return false;

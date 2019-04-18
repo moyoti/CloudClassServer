@@ -27,12 +27,11 @@ public class VerifyInfo {
         return false;
     }
     public static void main(String[] args) {
-        VerifyInfo vi=new VerifyInfo();
-        boolean re=vi.verifyEmailFormat("dqh_ql@133.com");
+        boolean re= verifyEmailFormat("dqh_ql@133.com");
         System.out.println("email:"+re);
-        re=vi.verifyPhoneFormat("17865425098");
+        re= verifyPhoneFormat("17865425098");
         System.out.println("phone:"+re);
-        re=vi.verifyUNOrPassForamt("asdfeas#a");
+        re= verifyUNOrPassForamt("asdfeas#a");
         System.out.println("uop:"+re);
     }
 

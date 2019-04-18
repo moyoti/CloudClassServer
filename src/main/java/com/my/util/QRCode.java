@@ -87,7 +87,7 @@ public class QRCode {
     }
     public static void main(String[] args) throws IOException, WriterException {
 
-        createQrCode(new FileOutputStream(new File("d:\\qrcode.jpg")),"WE1231238239128sASDASDSADSDWEWWREWRERWSDFDFSDSDF123123123123213123",900,"JPEG");
+        createQrCode(new FileOutputStream(new File("d:\\qrcode.jpg")),"WE123123",900,"JPEG");
         readQrCode(new FileInputStream(new File("d:\\qrcode.jpg")));
     }
 }

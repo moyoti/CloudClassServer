@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -33,13 +34,17 @@ public class ResourcesController {
     //todo 文件上传
     @RequestMapping(value = "/uploadfile",method = RequestMethod.POST)
     public boolean uploadFile(@RequestParam(value = "files",required=false)MultipartFile[] files,
-                              @RequestParam(value = "status",required=false)String status,@RequestParam(value = "cid",required=false)String cid){
-        Resource resource=new Resource();
-        resource.setStatus(status);
+                              @RequestParam(value = "status",required=false)String status,@RequestParam(value = "cid",required=false)String[] cid){
+        List<Integer> cids=new ArrayList<>();
         try{
             for (MultipartFile file:files) {
+                Resource resource=new Resource();
+                resource.setStatus(status);
                 resource.setName(file.getOriginalFilename().split("\\.")[0]);
-                resourceService.uploadFile(Integer.valueOf(cid),resource,file);
+                for (String s:cid){
+                    cids.add(Integer.parseInt(s));
+                }
+                resourceService.uploadFile(cids,resource,file);
             }
             return true;
         }catch (Exception e){

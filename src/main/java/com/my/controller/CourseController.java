@@ -2,6 +2,7 @@ package com.my.controller;
 
 import com.my.Service.CourseService;
 import com.my.Service.MemberService;
+import com.my.Service.UsersService;
 import com.my.dao.UsersMapper;
 import com.my.pojo.Course;
 import com.my.pojo.CourseItem;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,6 +32,8 @@ public class CourseController {
     private MemberService memberService;
     @Autowired
     private UsersMapper usersMapper;
+    @Autowired
+    private UsersService usersService;
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     //todo cover的上传稍后做，先传入一个String初期尝试
     public int createCourse(HttpServletRequest request,
@@ -61,6 +65,15 @@ public class CourseController {
     @RequestMapping(value = "/getcreatecourse",method = RequestMethod.POST)
     public List<CourseItem> getCreateCourse(@RequestParam("uid")String uid){
         return courseService.getCreateCourse(Integer.valueOf(uid));
+    }
+    @RequestMapping(value = "/getcreatecoursepc",method = RequestMethod.POST)
+    public List<CourseItem> getCreateCoursePC(HttpSession session){
+        String email= (String) session.getAttribute("username");
+        if (email==null){
+            return null;
+        }
+        int uid=usersService.getUidByEmail(email);
+        return courseService.getCreateCourse(uid);
     }
     @RequestMapping(value = "/checkclassexist", method = RequestMethod.POST)
     public List<CourseItem> checkClassExist(@RequestParam("cid")String cid){

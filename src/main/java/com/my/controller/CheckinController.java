@@ -75,7 +75,7 @@ public class CheckinController {
             cr.setUid(jo.getInteger("uid"));
             cr.setStatus(jo.getString("status"));
             cr.setChid(jo.getInteger("chid"));
-//            cr.setChtime(new Date());
+            cr.setChtime(new Date());
             if (!checkinResultService.addCheckinResult(cr)){
                 return false;
             }

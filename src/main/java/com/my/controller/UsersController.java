@@ -1,6 +1,8 @@
 package com.my.controller;
 
+import com.my.Service.MemberService;
 import com.my.Service.UsersService;
+import com.my.pojo.Member;
 import com.my.pojo.Users;
 import com.my.util.EmailSender;
 import org.apache.ibatis.annotations.Param;
@@ -25,6 +27,8 @@ import java.util.List;
 public class UsersController {
     @Autowired
     private UsersService usersService;
+    @Autowired
+    private MemberService memberService;
 
     @RequestMapping(value = "/getusersbyemail",method = RequestMethod.POST)
     public List<Users> getUsersByEmails(@RequestParam("emails")String emails){
@@ -124,7 +128,21 @@ public class UsersController {
         users.setGender(gender);
         users.setName(name);
         users.setPhone(phone);
+        //修改member表姓名
+        changenameinMember(uid, name);
         return usersService.updateUsersInfo(users);
+    }
+
+    public boolean changenameinMember(String uid, String name){
+        //通过uid搜索member表里的数据
+        //修改名字保存
+        List<Member> memberList = memberService.getMembersById(Integer.parseInt(uid));
+        for(int i = 0;i<memberList.size();i++){
+            Member m = memberList.get(i);
+            m.setName(name);
+            memberService.updateMember(m);
+        }
+        return true;
     }
 
     @RequestMapping(value = "/updatepassword", method = RequestMethod.POST)

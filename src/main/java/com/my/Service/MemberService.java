@@ -1,6 +1,7 @@
 package com.my.Service;
 
 import com.my.pojo.CourseItem;
+import com.my.pojo.Member;
 import com.my.pojo.Users;
 
 import java.util.List;
@@ -14,4 +15,6 @@ public interface MemberService {
     List<CourseItem> getJoinedCourse(int uid);
     boolean joinClass(int uid,int cid,String role, String name);
     boolean exitClass(int uid,int cid);
+    List<Member> getMembersById(int uid);
+    boolean updateMember(Member m);
 }

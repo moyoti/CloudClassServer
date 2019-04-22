@@ -95,4 +95,27 @@ public class MemberServiceImpl implements MemberService {
         }
     }
 
+    @Override
+    public List<Member> getMembersById(int uid) {
+        try{
+            MemberExample memberExample=new MemberExample();
+            memberExample.or().andUidEqualTo(uid);
+            List<Member> memberList=memberMapper.selectByExample(memberExample);
+            return memberList;
+        }catch(Exception e){
+            return null;
+        }
+    }
+
+    @Override
+    public boolean updateMember(Member m) {
+        //更新member表姓名
+        try{
+            memberMapper.updateByPrimaryKey(m);
+            return true;
+        }catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
+    }
 }

@@ -25,7 +25,6 @@
         function login () {
             var email = document.getElementById("email").value;
             var password = document.getElementById("password").value;
-
             $.ajax({
                 type: "POST",
                 url: "/users/loginpc",
@@ -48,14 +47,20 @@
 <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
     <div class="container">
         <div class="navbar-header">
-            <a href="#" class="navbar-brand">Cloud Class File Upload</a>
+            <a href="#" class="navbar-brand">云班课登录</a>
         </div>
-
+        <div id="navbar" class="collapse navbar-collapse navbar-right">
+            <ul class="nav navbar-nav">
+                <li><a href="home.html">主页</a></li>
+                <li class="active"><a href="#">登录</a></li>
+                <li ><a href="#">关于我们</a></li>
+            </ul>
+        </div>
     </div>
 </nav>
 <div class="container">
     <div class="starter">
-        <h1 style="font-size: 50px;">Welcome to Cloud Class</h1></br>
+        <h1 style="font-size: 50px;">欢迎使用云班课</h1></br>
 
         <input id="email" class="inputbox" type="text" placeholder="请输入您的邮箱"/></br></br>
         <input id="password" class="inputbox" type="password" placeholder="请输入密码"/></br></br>

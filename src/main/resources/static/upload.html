@@ -20,6 +20,7 @@
     </style>
     <script>
         var uploadList;
+        var chosenList;
         $(function () {
             $.ajax({
                 type: "POST",
@@ -28,25 +29,39 @@
                 success: function (re) {
                     for (var i=0;i<re.length;i++) {
                         document.getElementById("checkboxgroup").innerHTML += "<div><label>\n" +
-                            "        <input class=\"checkboxes\" type=\"checkbox\" value=\"" + re[i].course.cid + "\">"+re[i].course.cname+"\n" +
+                            "        <input class=\"checkboxes\" type=\"checkbox\" alt='"+re[i].course.classname+" "+re[i].course.cname+"(班课号"+re[i].course.cid+")"+"' value=\"" + re[i].course.cid + "\">"+re[i].course.classname+" "+re[i].course.cname+"(班课号"+re[i].course.cid+")\n" +
                             "    </label></div>"
                     }
                 }
             });
         });
         function saveclass() {
-            var checkboxes=$(".checkboxes");
-            uploadList=new Array();
-            for (var i=0;i<checkboxes.length;i++){
-                if (checkboxes[i].checked){
-                    uploadList.push(checkboxes[i].getAttribute("value"));
+
+                var checkboxes = $(".checkboxes");
+                uploadList = new Array();
+                chosenList = new Array();
+                for (var i = 0; i < checkboxes.length; i++) {
+                    if (checkboxes[i].checked) {
+                        uploadList.push(checkboxes[i].getAttribute("value"));
+                        chosenList.push(checkboxes[i].getAttribute("alt"));
+                    }
                 }
-            }
+                if(chosenList.length==0){
+                    alert("请选择班级！");
+//                    $("#secondtogglebtn").click();
+                    document.getElementById("secondtogglebtn").click();
+                }else {
+                    for (var i = 0; i < checkboxes.length; i++) {
+                        checkboxes[i].disabled = true;
+                    }
 
-            for (var i=0;i<checkboxes.length;i++){
-                checkboxes[i].disabled=true;
-            }
-
+                    //您已选择以下班级
+                    document.getElementById("chosenclass").innerHTML = "";
+                    chosenList.reverse();
+                    while (chosenList.length != 0) {
+                        document.getElementById("chosenclass").innerHTML += chosenList.pop() + "<br/>";
+                    }
+                }
         }
         function editclass() {
             var checkboxes=$(".checkboxes");
@@ -110,6 +125,7 @@
                 }),
                 success: function (arg) {
                     console.log(arg);
+                    alert("上传成功！");
                 }
             })
         }
@@ -129,29 +145,33 @@
 <body>
 <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
     <div class="container">
-        <!--<div class="navbar-header">-->
-        <!--<a href="#" class="navbar-brand">你好，吴玠璘</a>-->
-        <!--</div>-->
-        <!--<div id="navbar" class="collapse navbar-collapse navbar-right">-->
-        <!--<ul class="nav navbar-nav">-->
-        <!--<li ><a href="login.html" onclick="logout()">登出</a></li>-->
-        <!--</ul>-->
-        <!--</div>-->
-    </div>
-</nav>
-<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-    <div class="container">
         <div class="navbar-header">
-            <a href="#" class="navbar-brand">Cloud Class File Upload</a>
+            <a href="#" class="navbar-brand">云班课文件上传</a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse navbar-right">
+            <ul class="nav navbar-nav">
+                <li><a href="home.html" onclick="logout()">退出</a></li>
+            </ul>
         </div>
     </div>
 </nav>
-<div id="checkboxgroup" class="checkbox-inline" style="padding-top: 10%;margin: 10px;">
 
+<div id="firstblock" class="container collapse in" style="margin-top: 100px">
+    <h3>请选择所要上传资源的班级：</h3></br>
+    <div id="checkboxgroup" class="checkbox-inline" style="margin:0 auto;font-size: 20px">
+
+    </div>
+    <br/><br/>
+    <button type="button" class="btn btn-primary" data-toggle="collapse" data-target="#firstblock,#secondblock" onclick="saveclass()">确定</button>
 </div>
-<button onclick="editclass()">edit</button>
-<button onclick="saveclass()">save</button>
-<div class="container" style="margin-top: 100px">
+
+<div id="secondblock" class="container collapse" style="margin-top: 100px">
+    <h3>您已选中以下班级：</h3></br>
+    <div id="chosenclass">
+
+    </div>
+    <br/>
+    <button id="secondtogglebtn" type="button" class="btn btn-primary" data-toggle="collapse" data-target="#firstblock,#secondblock" onclick="editclass()">修改班级</button>
     <div class="row">
         <div class="col-md-5 col-md-offset-2">
             <!--<form action="/resource/uploadfile" enctype="multipart/form-data" method="POST">-->

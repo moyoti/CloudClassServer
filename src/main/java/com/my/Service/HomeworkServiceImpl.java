@@ -116,13 +116,13 @@ public class HomeworkServiceImpl implements HomeworkService {
     @Override
     public boolean doHomework(Homeworkresult homeworkresult) {
         try{
-//            HomeworkresultExample homeworkresultExample=new HomeworkresultExample();
-//            homeworkresultExample.or().andUidEqualTo(homeworkresult.getHid()).andHidEqualTo(homeworkresult.getHid());
-//            if(homeworkresultMapper.selectByExample(homeworkresultExample).isEmpty()){
-//                homeworkresultMapper.insert(homeworkresult);
-//            }else {
+            HomeworkresultExample homeworkresultExample=new HomeworkresultExample();
+            homeworkresultExample.or().andUidEqualTo(homeworkresult.getHid()).andHidEqualTo(homeworkresult.getHid());
+            if(homeworkresult.getHrid()==null){
+                homeworkresultMapper.insert(homeworkresult);
+            }else{
                 homeworkresultMapper.updateByPrimaryKey(homeworkresult);
-//            }
+            }
             return true;
         }catch (Exception e){
             e.printStackTrace();

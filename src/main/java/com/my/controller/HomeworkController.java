@@ -96,6 +96,7 @@ public class HomeworkController {
             homework.setProfile(profile);
             homework.setStatus(status);
             homework.setQuestion(question);
+            homeworkService.updateHomework(homework);
             return true;
         }catch (Exception e){
             e.printStackTrace();
@@ -119,6 +120,9 @@ public class HomeworkController {
         Homeworkresult homeworkresult=homeworkService.getHomeworkResult(Integer.parseInt(hrid));
         homeworkresult.setAnswer(answer);
         homeworkresult.setValue(-1);
+        System.out.println("------------------");
+        System.out.println("Answer is "+homeworkresult.getAnswer());
+        System.out.println("hrid is "+homeworkresult.getHrid());
         homeworkService.doHomework(homeworkresult);
         return true;
     }

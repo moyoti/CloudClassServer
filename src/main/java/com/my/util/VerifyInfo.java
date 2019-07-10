@@ -31,7 +31,7 @@ public class VerifyInfo {
         System.out.println("email:"+re);
         re= verifyPhoneFormat("17865425098");
         System.out.println("phone:"+re);
-        re= verifyUNOrPassForamt("asdfeas#a");
+        re= verifyUNOrPassForamt("asdfeas");
         System.out.println("uop:"+re);
     }
 

@@ -6,33 +6,33 @@
     <title>Login</title>
     <link rel="stylesheet" href="./css/bootstrap.min.css">
     <style>
-        body{
+        body {
             padding-top: 100px;
         }
 
-        .starter{
+        .starter {
             text-align: center;
             padding-left: 0px;
         }
 
-        .inputbox{
+        .inputbox {
             width: 350px;
             height: 40px;
         }
     </style>
     <script src="./js/jquery.min.js"></script>
     <script>
-        function login () {
+        function login() {
             var email = document.getElementById("email").value;
             var password = document.getElementById("password").value;
             $.ajax({
                 type: "POST",
                 url: "/users/loginpc",
-                data: {email:email,password:password},
+                data: {email: email, password: password},
                 success: function (result) {
-                    if(result.toString()=="true"){
+                    if (result.toString() == "true") {
                         window.location.href = "upload.html"
-                    }else{
+                    } else {
                         alert("用户名密码错误，请重新输入！");
                         document.getElementById("email").innerHTML = "";
                         document.getElementById("password").innerHTML = "";
@@ -53,7 +53,7 @@
             <ul class="nav navbar-nav">
                 <li><a href="home.html">主页</a></li>
                 <li class="active"><a href="#">登录</a></li>
-                <li ><a href="#">关于我们</a></li>
+                <li><a href="#">关于我们</a></li>
             </ul>
         </div>
     </div>
@@ -65,7 +65,8 @@
         <input id="email" class="inputbox" type="text" placeholder="请输入您的邮箱"/></br></br>
         <input id="password" class="inputbox" type="password" placeholder="请输入密码"/></br></br>
 
-        <button class="btn btn-primary inputbox" onclick="login()">Login</button></br></br>
+        <button class="btn btn-primary inputbox" onclick="login()">登录</button>
+        </br></br>
 
     </div>
 

@@ -28,18 +28,18 @@ public class EmailSender {
         this.properties = new Properties();
     }
     public void setProperties(String host,String post){
-        //µØÖ·
+        //åœ°å€
         this.properties.put("mail.smtp.host",host);
-        //¶Ë¿ÚºÅ
+        //ç«¯å£å·
         this.properties.put("mail.smtp.post",post);
-        //ÊÇ·ñÑéÖ¤
+        //æ˜¯å¦éªŒè¯
         this.properties.put("mail.smtp.auth","true");
         this.session=Session.getInstance(properties);
         this.message = new MimeMessage(session);
         this.multipart = new MimeMultipart("mixed");
     }
     /**
-     * ÉèÖÃÊÕ¼şÈË
+     * è®¾ç½®æ”¶ä»¶äºº
      * @param receiver
      * @throws MessagingException
      */
@@ -51,39 +51,44 @@ public class EmailSender {
         this.message.setRecipients(Message.RecipientType.TO, address);
     }
     /**
-     * ÉèÖÃÓÊ¼ş
-     * @param from À´Ô´
-     * @param title ±êÌâ
-     * @param content ÄÚÈİ
+     * è®¾ç½®é‚®ä»¶
+     * @param from æ¥æº
+     * @param title æ ‡é¢˜
+     * @param content å†…å®¹
      * @throws AddressException
      * @throws MessagingException
      */
     public void setMessage(String from,String title,String content) throws AddressException, MessagingException, UnsupportedEncodingException {
         this.message.setFrom(new InternetAddress(from));
         sun.misc.BASE64Encoder enc = new sun.misc.BASE64Encoder();
-        String sTitle="=?utf-8?B?"+MimeUtility.encodeText(title,"gbk",null).substring(8);
+        String sTitle="=?utf-8?B?"+MimeUtility.encodeText(title,"utf-8",null).substring(10);
         this.message.setSubject(sTitle);
         System.out.println(sTitle);
         System.out.println(MimeUtility.encodeText(title,"utf-8",null));
         System.out.println(MimeUtility.encodeText(title,"gbk",null));
-        //´¿ÎÄ±¾µÄ»°ÓÃsetText()¾ÍĞĞ£¬²»¹ıÓĞ¸½¼ş¾ÍÏÔÊ¾²»³öÀ´ÄÚÈİÁË
+        //çº¯æ–‡æœ¬çš„è¯ç”¨setText()å°±è¡Œï¼Œä¸è¿‡æœ‰é™„ä»¶å°±æ˜¾ç¤ºä¸å‡ºæ¥å†…å®¹äº†
+
         MimeBodyPart textBody = new MimeBodyPart();
+        textBody.setHeader("Content-Transfer-Encoding", "base64");
+        textBody.setHeader("Content-Type", "text/plain; charset=utf-8");
 //        textBody.setText(content,"gbk");
-        String sContent="=?utf-8?B?"+MimeUtility.encodeText(content,"gbk",null).substring(8);
+        String sContent="=?utf-8?B?"+MimeUtility.encodeText(content,"utf-8",null).substring(10);
+//        String sContent=MimeUtility.encodeText(content,"utf-8",null);
         textBody.setText(content);
+        System.out.println(sContent.substring(10,sContent.length()-2));
         System.out.println(sContent);
         System.out.println(MimeUtility.encodeText(content,"utf-8",null));
         System.out.println(MimeUtility.encodeText(content,"gbk",null));
 //        sun.misc.BASE64Encoder enc = new sun.misc.BASE64Encoder();
         textBody.setHeader("Content-Transfer-Encoding", "base64");
-        textBody.setHeader("Content-Type", "text/plain; charset=utf-8");
+        textBody.setHeader("Content-Type", "text/plain; charset=gbk");
 //        textBody.setHeader("Accept-Language", "zh-CN, en-US");
 //        textBody.setHeader("Content-Language", "zh-CN");
         this.multipart.addBodyPart(textBody);
     }
     /**
-     * Ìí¼Ó¸½¼ş
-     * @param filePath ÎÄ¼şÂ·¾¶
+     * æ·»åŠ é™„ä»¶
+     * @param filePath æ–‡ä»¶è·¯å¾„
      * @throws MessagingException
      */
 //    public void addAttachment(String filePath) throws MessagingException{
@@ -95,36 +100,36 @@ public class EmailSender {
 //        this.multipart.addBodyPart(mimeBodyPart);
 //    }
     /**
-     * ·¢ËÍÓÊ¼ş
-     * @param host µØÖ·
-     * @param account ÕË»§Ãû
-     * @param pwd ÃÜÂë
+     * å‘é€é‚®ä»¶
+     * @param host åœ°å€
+     * @param account è´¦æˆ·å
+     * @param pwd å¯†ç 
      * @throws MessagingException
      */
     public void sendEmail(String host,String account,String pwd) throws MessagingException{
-        //·¢ËÍÊ±¼ä
+        //å‘é€æ—¶é—´
         this.message.setSentDate(new Date());
-        //·¢ËÍµÄÄÚÈİ£¬ÎÄ±¾ºÍ¸½¼ş
+        //å‘é€çš„å†…å®¹ï¼Œæ–‡æœ¬å’Œé™„ä»¶
         this.message.setContent(this.multipart);
         this.message.saveChanges();
-        //´´½¨ÓÊ¼ş·¢ËÍ¶ÔÏó£¬²¢Ö¸¶¨ÆäÊ¹ÓÃSMTPĞ­Òé·¢ËÍÓÊ¼ş
+        //åˆ›å»ºé‚®ä»¶å‘é€å¯¹è±¡ï¼Œå¹¶æŒ‡å®šå…¶ä½¿ç”¨SMTPåè®®å‘é€é‚®ä»¶
         Transport transport=session.getTransport("smtp");
-        //µÇÂ¼ÓÊÏä
+        //ç™»å½•é‚®ç®±
         transport.connect(host,account,pwd);
-        //·¢ËÍÓÊ¼ş
+        //å‘é€é‚®ä»¶
         transport.sendMessage(message, message.getAllRecipients());
-        //¹Ø±ÕÁ¬½Ó
+        //å…³é—­è¿æ¥
         transport.close();
     }
 
     public void send(String title,String content,String[] receiver) throws MessagingException, UnsupportedEncodingException {
-        //ÉèÖÃ·şÎñÆ÷µØÖ·ºÍ¶Ë¿Ú
+        //è®¾ç½®æœåŠ¡å™¨åœ°å€å’Œç«¯å£
         setProperties("smtp.sohu.com", "25");
-        //·Ö±ğÉèÖÃ·¢¼şÈË£¬ÓÊ¼ş±êÌâºÍÎÄ±¾ÄÚÈİ
+        //åˆ†åˆ«è®¾ç½®å‘ä»¶äººï¼Œé‚®ä»¶æ ‡é¢˜å’Œæ–‡æœ¬å†…å®¹
         setMessage("cloudclass@sohu.com", title, content);
-        //ÉèÖÃÊÕ¼şÈË
+        //è®¾ç½®æ”¶ä»¶äºº
         setReceiver(receiver);
-        //¶àÃ½ÌåÏà¹ØÅäÖÃ
+        //å¤šåª’ä½“ç›¸å…³é…ç½®
 //        MailcapCommandMap mc = (MailcapCommandMap) CommandMap.getDefaultCommandMap();
 //        mc.addMailcap("text/html;; x-Java-content-handler=com.sun.mail.handlers.text_html");
 //        mc.addMailcap("text/xml;; x-java-content-handler=com.sun.mail.handlers.text_xml");
@@ -132,18 +137,18 @@ public class EmailSender {
 //        mc.addMailcap("multipart/*;; x-java-content-handler=com.sun.mail.handlers.multipart_mixed");
 //        mc.addMailcap("message/rfc822;; x-java-content-handler=com.sun.mail.handlers.message_rfc822");
 //        CommandMap.setDefaultCommandMap(mc);
-        //·¢ËÍÓÊ¼ş
+        //å‘é€é‚®ä»¶
         sendEmail("smtp.sohu.com", "cloudclass@sohu.com", "cloudclass123456");
     }
     public static void main(String[] args) throws MessagingException, UnsupportedEncodingException {
         EmailSender emailSender = new EmailSender();
-        //ÉèÖÃ·şÎñÆ÷µØÖ·ºÍ¶Ë¿Ú
+        //è®¾ç½®æœåŠ¡å™¨åœ°å€å’Œç«¯å£
         emailSender.setProperties("smtp.sohu.com", "25");
-        //·Ö±ğÉèÖÃ·¢¼şÈË£¬ÓÊ¼ş±êÌâºÍÎÄ±¾ÄÚÈİ
-        emailSender.setMessage("cloudclass@sohu.com", "Test Message", "test email send");
-        //ÉèÖÃÊÕ¼şÈË
+        //åˆ†åˆ«è®¾ç½®å‘ä»¶äººï¼Œé‚®ä»¶æ ‡é¢˜å’Œæ–‡æœ¬å†…å®¹
+        emailSender.setMessage("cloudclass@sohu.com", "æ ‡é¢˜", "ä¸­æ–‡æµ‹è¯•");
+        //è®¾ç½®æ”¶ä»¶äºº
         emailSender.setReceiver(new String[]{"dqh_ql@163.com"});
-        //¶àÃ½ÌåÏà¹ØÅäÖÃ
+        //å¤šåª’ä½“ç›¸å…³é…ç½®
         MailcapCommandMap mc = (MailcapCommandMap) CommandMap.getDefaultCommandMap();
         mc.addMailcap("text/html;; x-Java-content-handler=com.sun.mail.handlers.text_html");
         mc.addMailcap("text/xml;; x-java-content-handler=com.sun.mail.handlers.text_xml");
@@ -151,7 +156,7 @@ public class EmailSender {
         mc.addMailcap("multipart/*;; x-java-content-handler=com.sun.mail.handlers.multipart_mixed");
         mc.addMailcap("message/rfc822;; x-java-content-handler=com.sun.mail.handlers.message_rfc822");
         CommandMap.setDefaultCommandMap(mc);
-        //·¢ËÍÓÊ¼ş
+        //å‘é€é‚®ä»¶
         emailSender.sendEmail("smtp.sohu.com", "cloudclass@sohu.com", "cloudclass123456");
     }
 }

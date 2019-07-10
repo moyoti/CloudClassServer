@@ -5,6 +5,7 @@ import com.my.Service.UsersService;
 import com.my.pojo.Member;
 import com.my.pojo.Users;
 import com.my.util.EmailSender;
+import com.my.util.VerifyInfo;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -79,6 +80,9 @@ public class UsersController {
     public boolean usersRegister(HttpServletRequest request,
                                  @Param("email") String email, @Param("password") String password) {
         Users users=new Users();
+        if(!VerifyInfo.verifyEmailFormat(email)){
+            return false;
+        }
         System.out.println("Outside try");
         try{
             System.out.println("Inside try");
